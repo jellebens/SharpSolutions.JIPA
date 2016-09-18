@@ -8,6 +8,10 @@ namespace SharpSolutions.JIPA.Models
 {
     public class TemperatureModel : ModelBase
     {
+        public TemperatureModel()
+        {
+            this.Temperature = "29.0 °C";
+        }
         private string _Temperature;
 
         public string Temperature

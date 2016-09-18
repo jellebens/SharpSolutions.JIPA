@@ -16,7 +16,6 @@ using Autofac;
 using SharpSolutions.JIPA.ViewModels;
 using Windows.System.Threading;
 using Windows.UI.Core;
-using SharpSolutions.JIPA.Service;
 using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -46,22 +45,11 @@ namespace SharpSolutions.JIPA.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal ,() => _ViewModel.UpdateTime());
         }
-
         
-        private async void OnTemperatureTimerElapsed(ThreadPoolTimer timer)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _ViewModel.UpdateTemperature());
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _ViewModel.UpdatePressure());
-        }
-
         private async void OnPageLoaded(object sender, RoutedEventArgs e)
         {
-            await _ViewModel.Init();
-
-            _ViewModel.UpdateTemperature();
-            _ViewModel.UpdatePressure();
-
-            ThreadPoolTimer.CreatePeriodicTimer(OnTemperatureTimerElapsed, TimeSpan.FromSeconds(10)); 
+            
+            
         }
     }
 }
