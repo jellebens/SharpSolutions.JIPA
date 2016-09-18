@@ -1,12 +1,17 @@
-﻿using System;
+﻿using Autofac;
+using SharpSolutions.JIPA.Views;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,6 +27,8 @@ namespace SharpSolutions.JIPA
     /// </summary>
     sealed partial class App : Application
     {
+        internal static IContainer Container;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,6 +37,7 @@ namespace SharpSolutions.JIPA
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.Configure();
         }
 
         /// <summary>
@@ -39,45 +47,65 @@ namespace SharpSolutions.JIPA
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+
+            // Change minimum window size
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(800, 480));
+            ApplicationView.GetForCurrentView().TryResizeView(new Size(800, 480));
+            // Darken the window title bar using a color value to match app theme
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            if (titleBar != null)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                Color titleBarColor = (Color)App.Current.Resources["SystemChromeMediumColor"];
+                titleBar.BackgroundColor = titleBarColor;
+                titleBar.ButtonBackgroundColor = titleBarColor;
             }
-#endif
-            Frame rootFrame = Window.Current.Content as Frame;
+            
+
+            AppShell shell = Window.Current.Content as AppShell;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (shell == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                // Create a AppShell to act as the navigation context and navigate to the first page
+                shell = new AppShell();
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
+                // Set the default language
+                shell.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+
+                shell.AppFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
                 }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            // Place our app shell in the current Window
+            Window.Current.Content = shell;
+
+            if (shell.AppFrame.Content == null)
             {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                }
-                // Ensure the current window is active
-                Window.Current.Activate();
+                // When the navigation stack isn't restored, navigate to the first page
+                // suppressing the initial entrance animation.
+                shell.AppFrame.Navigate(typeof(HomePage), e.Arguments, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
             }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
+
+        private void Configure() {
+            ContainerBuilder builder = new ContainerBuilder();
+
+            Assembly asm = typeof(App).GetTypeInfo().Assembly;
+
+            builder.RegisterAssemblyModules(asm);
+
+
+            Container = builder.Build();
+        }
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
