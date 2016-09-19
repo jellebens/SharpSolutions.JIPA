@@ -139,6 +139,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpSolutions.JIPA.Core\SharpSolutions.JIPA.Core.csproj">
+      <Project>{066B0F6F-64AC-4447-B127-87564F70B739}</Project>
+      <Name>SharpSolutions.JIPA.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpSolutions.JIPA.Events\SharpSolutions.JIPA.Events.csproj">
       <Project>{4bc11540-5ada-4da0-a1ac-f741a56a1870}</Project>
       <Name>SharpSolutions.JIPA.Events</Name>

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpSolutions.JIPA.SensorService
+namespace SharpSolutions.JIPA
 {
-    public sealed class Configuration
+    public class Configuration
     {
         private static Configuration _Current;
         static Configuration()
@@ -21,11 +21,11 @@ namespace SharpSolutions.JIPA.SensorService
         }
 
         public string DeviceId { get; set; }
-        public string DeviceKey { get; set; }
-        public string IotHub { get; set; }
+        public string SharedAccessKeyName { get; set; }
+        public string SharedAccessKey { get; set; }
+        public string EventHub { get; set; }
         public string Room { get; set; }
         public string Site { get; set; }
-        public int Interval { get; set; }
 
         public static Configuration Load()
         {
@@ -42,6 +42,5 @@ namespace SharpSolutions.JIPA.SensorService
                 return _Current;
             }
         }
-
     }
 }
