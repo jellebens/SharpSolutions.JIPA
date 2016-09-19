@@ -7,6 +7,10 @@ using Windows.ApplicationModel.Background;
 using System.Diagnostics;
 using SharpSolutions.JIPA.Sensors;
 using Windows.System.Threading;
+using Autofac;
+using System.Reflection;
+using SharpSolutions.JIPA.SensorService.Modules;
+using SharpSolutions.JIPA.SensorService.Services;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -15,29 +19,33 @@ namespace SharpSolutions.JIPA.SensorService
     public sealed class StartupTask : IBackgroundTask
     {
         private BackgroundTaskDeferral _Deferral;
-        BMP280 _Sensor;
+        private IContainer _Container;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             _Deferral = taskInstance.GetDeferral();
 
+            Initialize();
 
-            Configuration config = Configuration.Load();
+            IEnumerable<IService> services = _Container.Resolve<IEnumerable<IService>>();
 
-            Debug.WriteLine(config.DeviceId);
+            foreach (IService svc in services)
+            {
+                await svc.Start();
+            }
+        }
 
-            _Sensor = new BMP280();
+        private void Initialize() {
+            ContainerBuilder builder = new ContainerBuilder();
 
-            await _Sensor.Initialize();
+            Assembly asm = typeof(IService).GetTypeInfo().Assembly;
 
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnSensorTimerElapsedHandler, TimeSpan.FromSeconds(5));
+            builder.RegisterAssemblyTypes(asm).Where(t => t.IsAssignableTo<IService>()).As<IService>();
+
+            _Container = builder.Build();
 
         }
 
-        private async void OnSensorTimerElapsedHandler(ThreadPoolTimer timer)
-        {
-            float temp = await _Sensor.ReadTemperature();
-            Debug.WriteLine(temp);
-        }
+        
     }
 }

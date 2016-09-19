@@ -68,6 +68,7 @@
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
@@ -109,6 +110,7 @@
   <ItemGroup>
     <Compile Include="BMP280CalibrationData.cs" />
     <Compile Include="BMP280.cs" />
+    <Compile Include="IBMP280.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SharpSolutions.JIPA.Sensors.rd.xml" />
   </ItemGroup>

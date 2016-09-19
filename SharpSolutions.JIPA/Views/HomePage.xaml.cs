@@ -45,11 +45,5 @@ namespace SharpSolutions.JIPA.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal ,() => _ViewModel.UpdateTime());
         }
-        
-        private async void OnPageLoaded(object sender, RoutedEventArgs e)
-        {
-            
-            
-        }
     }
 }

@@ -11,6 +11,10 @@ namespace SharpSolutions.JIPA.SensorService
 {
     public sealed class Configuration
     {
+        private static Configuration _Current;
+        static Configuration() {
+            _Current = Load();
+        }
         public Configuration()
         {
 
@@ -21,7 +25,7 @@ namespace SharpSolutions.JIPA.SensorService
         public string IotHub { get;  set; }
         public string Area { get;  set; }
         public int Interval { get;  set; }
-
+        
         public static Configuration Load()
         {
 
@@ -29,5 +33,12 @@ namespace SharpSolutions.JIPA.SensorService
 
             return JsonConvert.DeserializeObject<Configuration>(json);
         }
+
+        public static Configuration Current {
+            get {
+                return _Current;
+            }
+        }
+
     }
 }

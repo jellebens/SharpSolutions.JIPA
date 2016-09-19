@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.I2c;
+using Windows.Foundation;
 
 namespace SharpSolutions.JIPA.Sensors
 {
-    public class BMP280
+    public class BMP280 : IBMP280
     {
+        #region Registers
         //The BMP280 register addresses according the the datasheet: http://www.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf
         const byte BMP280_Address = 0x77;
         const byte BMP280_Signature = 0x58;
-
-        enum eRegisters : byte
+        private enum eRegisters : byte
         {
             BMP280_REGISTER_T1 = 0x88,
             BMP280_REGISTER_T2 = 0x8A,
@@ -52,6 +55,7 @@ namespace SharpSolutions.JIPA.Sensors
             BMP280_REGISTER_HUMIDDATA_MSB = 0xFD,
             BMP280_REGISTER_HUMIDDATA_LSB = 0xFE,
         };
+        #endregion
 
         //String for the friendly name of the I2C bus 
         const string I2CControllerName = "I2C1";
@@ -64,30 +68,30 @@ namespace SharpSolutions.JIPA.Sensors
 
         public async Task Initialize()
         {
-            try
-            {
-                //Instantiate the I2CConnectionSettings using the device address of the BMP280
-                I2cConnectionSettings settings = new I2cConnectionSettings(BMP280_Address);
-                //Set the I2C bus speed of connection to fast mode
-                settings.BusSpeed = I2cBusSpeed.FastMode;
-                //Use the I2CBus device selector to create an advanced query syntax string
-                string aqs = I2cDevice.GetDeviceSelector(I2CControllerName);
-                //Use the Windows.Devices.Enumeration.DeviceInformation class to create a collection using the advanced query syntax string
-                DeviceInformationCollection dis = await DeviceInformation.FindAllAsync(aqs);
-                //Instantiate the the BMP280 I2C device using the device id of the I2CBus and the I2CConnectionSettings
-                bmp280 = await I2cDevice.FromIdAsync(dis[0].Id, settings);
-                //Check if device was found
-                if (bmp280 == null)
+                try
                 {
-                    Debug.WriteLine("Device not found");
+                    //Instantiate the I2CConnectionSettings using the device address of the BMP280
+                    I2cConnectionSettings settings = new I2cConnectionSettings(BMP280_Address);
+                    //Set the I2C bus speed of connection to fast mode
+                    settings.BusSpeed = I2cBusSpeed.FastMode;
+                    //Use the I2CBus device selector to create an advanced query syntax string
+                    string aqs = I2cDevice.GetDeviceSelector(I2CControllerName);
+                    //Use the Windows.Devices.Enumeration.DeviceInformation class to create a collection using the advanced query syntax string
+                    DeviceInformationCollection dis = await DeviceInformation.FindAllAsync(aqs);
+                    //Instantiate the the BMP280 I2C device using the device id of the I2CBus and the I2CConnectionSettings
+                    bmp280 = await I2cDevice.FromIdAsync(dis[0].Id, settings);
+                    //Check if device was found
+                    if (bmp280 == null)
+                    {
+                        Debug.WriteLine("Device not found");
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Exception: " + e.Message + "\n" + e.StackTrace);
-                throw;
-            }
-
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Exception: " + e.Message + "\n" + e.StackTrace);
+                    throw;
+                }
+            
         }
 
         private async Task Begin()
@@ -197,6 +201,23 @@ namespace SharpSolutions.JIPA.Sensors
 
         //t_fine carries fine temperature as global value
         Int32 t_fine = Int32.MinValue;
+
+        public Guid Id
+        {
+            get
+            {
+                return new Guid("{4B784936-54D5-40D5-94E0-AF7B40525CBA}");
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return "BPM280";
+            }
+        }
+
         //Method to return the temperature in DegC. Resolution is 0.01 DegC. Output value of “5123” equals 51.23 DegC.
         private double BMP280_compensate_T_double(Int32 adc_T)
         {
@@ -263,43 +284,32 @@ namespace SharpSolutions.JIPA.Sensors
 
         public async Task<float> ReadPreasure()
         {
-            //Make sure the I2C device is initialized
-            if (!init) await Begin();
+            
+                //Make sure the I2C device is initialized
+                if (!init) await Begin();
 
-            //Read the temperature first to load the t_fine value for compensation
-            if (t_fine == Int32.MinValue)
-            {
-                await ReadTemperature();
-            }
+                //Read the temperature first to load the t_fine value for compensation
+                if (t_fine == Int32.MinValue)
+                {
+                    await ReadTemperature();
+                }
 
-            //Read the MSB, LSB and bits 7:4 (XLSB) of the pressure from the BMP280 registers
-            byte tmsb = ReadByte((byte)eRegisters.BMP280_REGISTER_PRESSUREDATA_MSB);
-            byte tlsb = ReadByte((byte)eRegisters.BMP280_REGISTER_PRESSUREDATA_LSB);
-            byte txlsb = ReadByte((byte)eRegisters.BMP280_REGISTER_PRESSUREDATA_XLSB); // bits 7:4
+                //Read the MSB, LSB and bits 7:4 (XLSB) of the pressure from the BMP280 registers
+                byte tmsb = ReadByte((byte)eRegisters.BMP280_REGISTER_PRESSUREDATA_MSB);
+                byte tlsb = ReadByte((byte)eRegisters.BMP280_REGISTER_PRESSUREDATA_LSB);
+                byte txlsb = ReadByte((byte)eRegisters.BMP280_REGISTER_PRESSUREDATA_XLSB); // bits 7:4
 
-            //Combine the values into a 32-bit integer
-            Int32 t = (tmsb << 12) + (tlsb << 4) + (txlsb >> 4);
+                //Combine the values into a 32-bit integer
+                Int32 t = (tmsb << 12) + (tlsb << 4) + (txlsb >> 4);
 
-            //Convert the raw value to the pressure in Pa
-            Int64 pres = BMP280_compensate_P_Int64(t);
+                //Convert the raw value to the pressure in Pa
+                Int64 pres = BMP280_compensate_P_Int64(t);
 
-            //Return the temperature as a float value
-            return ((float)pres) / 256;
-        }
+                //Return the pressure as a float value
+                return ((float)pres) / 256;
 
-        //Method to take the sea level pressure in Hectopascals(hPa) as a parameter and calculate the altitude using current pressure.
-        public async Task<float> ReadAltitude(float seaLevel)
-        {
-            //Make sure the I2C device is initialized
-            if (!init) await Begin();
-
-            //Read the pressure first
-            float pressure = await ReadPreasure();
-            //Convert the pressure to Hectopascals(hPa)
-            pressure /= 100;
-
-            //Calculate and return the altitude using the international barometric formula
-            return 44330.0f * (1.0f - (float)Math.Pow((pressure / seaLevel), 0.1903f));
+            
+           
         }
     }
 }
