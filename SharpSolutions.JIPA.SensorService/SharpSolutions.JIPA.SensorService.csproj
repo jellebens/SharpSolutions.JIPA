@@ -133,6 +133,12 @@
       <InProject>false</InProject>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpSolutions.JIPA.Sensors\SharpSolutions.JIPA.Sensors.csproj">
+      <Project>{09a5ac06-c1b5-48df-a245-b357999fa1e1}</Project>
+      <Name>SharpSolutions.JIPA.Sensors</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

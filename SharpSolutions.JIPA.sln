@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.JIPA.Events"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.JIPA.SensorService", "SharpSolutions.JIPA.SensorService\SharpSolutions.JIPA.SensorService.csproj", "{6B5149F2-0F85-4DA0-9A0D-9293A38D6CAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.JIPA.Sensors", "SharpSolutions.JIPA.Sensors\SharpSolutions.JIPA.Sensors.csproj", "{09A5AC06-C1B5-48DF-A245-B357999FA1E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,22 @@ Global
 		{6B5149F2-0F85-4DA0-9A0D-9293A38D6CAC}.Release|x86.ActiveCfg = Release|x86
 		{6B5149F2-0F85-4DA0-9A0D-9293A38D6CAC}.Release|x86.Build.0 = Release|x86
 		{6B5149F2-0F85-4DA0-9A0D-9293A38D6CAC}.Release|x86.Deploy.0 = Release|x86
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|ARM.Build.0 = Debug|ARM
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|x64.ActiveCfg = Debug|x64
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|x64.Build.0 = Debug|x64
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|x86.ActiveCfg = Debug|x86
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Debug|x86.Build.0 = Debug|x86
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|ARM.ActiveCfg = Release|ARM
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|ARM.Build.0 = Release|ARM
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|x64.ActiveCfg = Release|x64
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|x64.Build.0 = Release|x64
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|x86.ActiveCfg = Release|x86
+		{09A5AC06-C1B5-48DF-A245-B357999FA1E1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
