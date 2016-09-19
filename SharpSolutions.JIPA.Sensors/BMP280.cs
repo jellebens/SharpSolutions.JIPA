@@ -66,7 +66,7 @@ namespace SharpSolutions.JIPA.Sensors
         //Variable to check if device is initialized
         bool init = false;
 
-        public async Task Initialize()
+        private async Task Initialize()
         {
                 try
                 {
@@ -202,22 +202,6 @@ namespace SharpSolutions.JIPA.Sensors
         //t_fine carries fine temperature as global value
         Int32 t_fine = Int32.MinValue;
 
-        public Guid Id
-        {
-            get
-            {
-                return new Guid("{4B784936-54D5-40D5-94E0-AF7B40525CBA}");
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return "BPM280";
-            }
-        }
-
         //Method to return the temperature in DegC. Resolution is 0.01 DegC. Output value of “5123” equals 51.23 DegC.
         private double BMP280_compensate_T_double(Int32 adc_T)
         {
@@ -262,7 +246,7 @@ namespace SharpSolutions.JIPA.Sensors
         }
 
 
-        public async Task<float> ReadTemperature()
+        private async Task<float> ReadTemperature()
         {
             //Make sure the I2C device is initialized
             if (!init) await Begin();
@@ -282,7 +266,7 @@ namespace SharpSolutions.JIPA.Sensors
             return (float)temp;
         }
 
-        public async Task<float> ReadPreasure()
+        private async Task<float> ReadPreasure()
         {
             
                 //Make sure the I2C device is initialized
@@ -310,6 +294,21 @@ namespace SharpSolutions.JIPA.Sensors
 
             
            
+        }
+
+        IAsyncAction IBMP280.Initialize()
+        {
+            return Initialize().AsAsyncAction();
+        }
+
+        IAsyncOperation<float> IBMP280.ReadPreasure()
+        {
+            return ReadPreasure().AsAsyncOperation();
+        }
+
+        IAsyncOperation<float> IBMP280.ReadTemperature()
+        {
+            return ReadTemperature().AsAsyncOperation();
         }
     }
 }

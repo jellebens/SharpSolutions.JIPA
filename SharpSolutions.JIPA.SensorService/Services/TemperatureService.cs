@@ -1,4 +1,7 @@
-﻿using SharpSolutions.JIPA.Sensors;
+﻿using Microsoft.Azure.Devices.Client;
+using Newtonsoft.Json;
+using SharpSolutions.JIPA.Events.Metering;
+using SharpSolutions.JIPA.Sensors;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +17,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
 {
     public sealed class TemperatureService: IService, IDisposable
     {
-        private BMP280 _Sensor;
+        private IBMP280 _Sensor;
         private SemaphoreSlim _Semaphore;
         private ThreadPoolTimer _Timer;
 
@@ -42,9 +45,24 @@ namespace SharpSolutions.JIPA.SensorService.Services
             try {
                 float temp = await _Sensor.ReadTemperature();
 
-                Debug.WriteLine("{0} °C", temp);
-        }
-            finally {
+                TemperatureMeasuredEvent evnt = new TemperatureMeasuredEvent();
+                evnt.Site = Configuration.Current.Site;
+                evnt.Room = Configuration.Current.Room;
+                evnt.Temperature = temp;
+
+                string payload = JsonConvert.SerializeObject(evnt);
+
+                Message msg = new Message(Encoding.UTF8.GetBytes(payload));
+
+                try
+                {
+                    DeviceClient client = DeviceClient.Create(Configuration.Current.IotHub, AuthenticationMethodFactory.CreateAuthenticationWithRegistrySymmetricKey(Configuration.Current.DeviceId, Configuration.Current.DeviceKey), TransportType.Amqp);
+                    await client.SendEventAsync(msg);
+                }
+                catch (Exception exc) {
+                    Debug.WriteLine("-> Failed to sent message: " + exc.Message);
+                }
+            }finally {
                 _Semaphore.Release();
             }
             

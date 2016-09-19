@@ -5,8 +5,8 @@ namespace SharpSolutions.JIPA.Sensors
 {
     public interface IBMP280
     {
-        //IAsyncAction Initialize();
-        //IAsyncOperation<float> ReadPreasure();
-        //IAsyncOperation<float> ReadTemperature();
+        IAsyncAction Initialize();
+        IAsyncOperation<float> ReadPreasure();
+        IAsyncOperation<float> ReadTemperature();
     }
 }

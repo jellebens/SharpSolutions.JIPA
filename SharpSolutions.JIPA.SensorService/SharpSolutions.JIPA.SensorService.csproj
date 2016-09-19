@@ -25,14 +25,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -139,6 +139,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpSolutions.JIPA.Events\SharpSolutions.JIPA.Events.csproj">
+      <Project>{4bc11540-5ada-4da0-a1ac-f741a56a1870}</Project>
+      <Name>SharpSolutions.JIPA.Events</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpSolutions.JIPA.Sensors\SharpSolutions.JIPA.Sensors.csproj">
       <Project>{09a5ac06-c1b5-48df-a245-b357999fa1e1}</Project>
       <Name>SharpSolutions.JIPA.Sensors</Name>
