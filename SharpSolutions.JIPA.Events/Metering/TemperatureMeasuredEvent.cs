@@ -11,5 +11,6 @@ namespace SharpSolutions.JIPA.Events.Metering
         public string Room { get; set; }
         public string Site { get; set; }
         public float Temperature { get; set; }
+        public DateTimeOffset TimeStamp { get; set; }
     }
 }

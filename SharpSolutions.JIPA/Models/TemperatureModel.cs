@@ -10,7 +10,7 @@ namespace SharpSolutions.JIPA.Models
     {
         public TemperatureModel()
         {
-            this.Temperature = "29.0 °C";
+            
         }
         private string _Temperature;
 
@@ -30,19 +30,19 @@ namespace SharpSolutions.JIPA.Models
             }
         }
 
-        private string _Pressure;
+        private string _Label;
 
-        public string Pressure
+        public string Label
         {
             get
             {
-                return _Pressure;
+                return _Label;
             }
             set
             {
-                if (_Pressure != value)
+                if (_Label != value)
                 {
-                    _Pressure = value;
+                    _Label = value;
                     OnPropertyChanged();
                 }
             }

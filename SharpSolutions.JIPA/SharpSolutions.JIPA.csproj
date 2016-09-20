@@ -104,6 +104,7 @@
     <Compile Include="Models\TemperatureModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
     <Compile Include="Modules\ModuleBase.cs" />
+    <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -147,6 +148,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\Data\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpSolutions.JIPA.Events\SharpSolutions.JIPA.Events.csproj">
+      <Project>{4bc11540-5ada-4da0-a1ac-f741a56a1870}</Project>
+      <Name>SharpSolutions.JIPA.Events</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -24,7 +24,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
         public TemperatureService()
         {
             _Sensor = new BMP280();
-            _Semaphore = new SemaphoreSlim(1, 5);
+            _Semaphore = new SemaphoreSlim(1);
         }
         
         public IAsyncAction Start() {
@@ -32,8 +32,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
             return AsyncInfo.Run(async delegate (CancellationToken token)
             {
                 await _Sensor.Initialize();
-
-                _Semaphore.Release();
+                
                 _Timer = ThreadPoolTimer.CreatePeriodicTimer(OnTimerElapsedHandler, TimeSpan.FromSeconds(5));
             });
             
@@ -41,26 +40,29 @@ namespace SharpSolutions.JIPA.SensorService.Services
 
         private async void OnTimerElapsedHandler(ThreadPoolTimer timer)
         {
-            _Semaphore.Wait();
+            if (!_Semaphore.Wait(0)) return; //if lock is being held exit immediately
             try {
                 float temp = await _Sensor.ReadTemperature();
 
                 TemperatureMeasuredEvent evnt = new TemperatureMeasuredEvent();
-                evnt.Site = Configuration.Current.Site;
-                evnt.Room = Configuration.Current.Room;
+                evnt.Site = Configuration.Default.Site;
+                evnt.Room = Configuration.Default.Room;
                 evnt.Temperature = temp;
+                evnt.TimeStamp = DateTimeOffset.Now;
 
                 string payload = JsonConvert.SerializeObject(evnt);
 
                 Message msg = new Message(Encoding.UTF8.GetBytes(payload));
-
+                DeviceClient client = DeviceClient.Create(Configuration.Default.IotHub, AuthenticationMethodFactory.CreateAuthenticationWithRegistrySymmetricKey(Configuration.Default.DeviceId, Configuration.Default.DeviceKey), TransportType.Amqp);
                 try
                 {
-                    DeviceClient client = DeviceClient.Create(Configuration.Current.IotHub, AuthenticationMethodFactory.CreateAuthenticationWithRegistrySymmetricKey(Configuration.Current.DeviceId, Configuration.Current.DeviceKey), TransportType.Amqp);
                     await client.SendEventAsync(msg);
                 }
                 catch (Exception exc) {
                     Debug.WriteLine("-> Failed to sent message: " + exc.Message);
+                }
+                finally {
+                    client.Dispose();
                 }
             }finally {
                 _Semaphore.Release();

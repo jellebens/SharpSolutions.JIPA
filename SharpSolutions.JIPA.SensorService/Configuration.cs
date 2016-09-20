@@ -10,12 +10,12 @@ namespace SharpSolutions.JIPA.SensorService
 {
     public sealed class Configuration
     {
-        private static Configuration _Current;
+        private static readonly Configuration _Current = Load();
         static Configuration()
         {
             _Current = Load();
         }
-        public Configuration()
+        private Configuration()
         {
 
         }
@@ -35,7 +35,7 @@ namespace SharpSolutions.JIPA.SensorService
             return JsonConvert.DeserializeObject<Configuration>(json);
         }
 
-        public static Configuration Current
+        public static Configuration Default
         {
             get
             {
