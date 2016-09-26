@@ -58,7 +58,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 evnt.Key = string.Format("{0}_Temperature", Configuration.Default.DeviceId);
                 evnt.Site = Configuration.Default.Site;
                 evnt.Value = temp.ToString();
-                evnt.TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                evnt.Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
                 string payload = JsonConvert.SerializeObject(evnt);
 

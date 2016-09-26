@@ -11,6 +11,6 @@ namespace SharpSolutions.JIPA.Events.Metering
         public string Key { get; set; }
         public string Site { get; set; }
         public string Value { get; set; }
-        public long TimeStamp { get; set; }
+        public long Timestamp { get; set; }
     }
 }
