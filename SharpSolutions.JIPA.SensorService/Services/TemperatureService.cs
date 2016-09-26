@@ -1,5 +1,7 @@
 ﻿using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
+using SharpSolutions.JIPA.Core;
+using SharpSolutions.JIPA.Core.Mqtt;
 using SharpSolutions.JIPA.Events.Metering;
 using SharpSolutions.JIPA.Sensors;
 using System;
@@ -10,6 +12,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using uPLibrary.Networking.M2Mqtt;
 using Windows.Foundation;
 using Windows.System.Threading;
 
@@ -20,11 +23,18 @@ namespace SharpSolutions.JIPA.SensorService.Services
         private IBMP280 _Sensor;
         private SemaphoreSlim _Semaphore;
         private ThreadPoolTimer _Timer;
+        private MqttClient _Client;
 
         public TemperatureService()
         {
             _Sensor = new BMP280();
             _Semaphore = new SemaphoreSlim(1);
+            _Client = new MqttClient(Configuration.Default.LocalBus);
+            _Client.Connect(Configuration.Default.DeviceId);
+
+            string msg = Messages.CreateServiceStartMsg("Jelle's Intelligent Personal Assistant's Sensors", Configuration.Default.DeviceId);
+
+            _Client.Publish(Topics.GetJipaSystemTopic(), Encoding.UTF8.GetBytes(msg));
         }
         
         public IAsyncAction Start() {
@@ -45,24 +55,21 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 float temp = await _Sensor.ReadTemperature();
 
                 TemperatureMeasuredEvent evnt = new TemperatureMeasuredEvent();
+                evnt.Key = string.Format("{0}_Temperature", Configuration.Default.DeviceId);
                 evnt.Site = Configuration.Default.Site;
-                evnt.Room = Configuration.Default.Room;
-                evnt.Temperature = temp;
-                evnt.TimeStamp = DateTimeOffset.Now;
+                evnt.Value = temp;
+                evnt.TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
                 string payload = JsonConvert.SerializeObject(evnt);
 
-                Message msg = new Message(Encoding.UTF8.GetBytes(payload));
-                DeviceClient client = DeviceClient.Create(Configuration.Default.IotHub, AuthenticationMethodFactory.CreateAuthenticationWithRegistrySymmetricKey(Configuration.Default.DeviceId, Configuration.Default.DeviceKey), TransportType.Amqp);
+                byte[] msg =Encoding.UTF8.GetBytes(payload);
+                
                 try
                 {
-                    await client.SendEventAsync(msg);
+                    _Client.Publish("/openhab", msg);
                 }
                 catch (Exception exc) {
                     Debug.WriteLine("-> Failed to sent message: " + exc.Message);
-                }
-                finally {
-                    client.Dispose();
                 }
             }finally {
                 _Semaphore.Release();
@@ -72,7 +79,13 @@ namespace SharpSolutions.JIPA.SensorService.Services
 
         public void Dispose()
         {
+            string msg = Messages.CreateServiceStopMsg("Jelle's Intelligent Personal Assistant's Sensors", Configuration.Default.DeviceId);
+
+            _Client.Publish(Topics.GetJipaSystemTopic(), Encoding.UTF8.GetBytes(msg));
+
             _Timer.Cancel();
+
+            _Client.Disconnect();
 
             _Semaphore.Dispose();
         }

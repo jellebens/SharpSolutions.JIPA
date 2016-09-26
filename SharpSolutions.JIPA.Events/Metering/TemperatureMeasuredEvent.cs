@@ -8,9 +8,9 @@ namespace SharpSolutions.JIPA.Events.Metering
 {
     public class TemperatureMeasuredEvent
     {
-        public string Room { get; set; }
+        public string Key { get; set; }
         public string Site { get; set; }
-        public float Temperature { get; set; }
-        public DateTimeOffset TimeStamp { get; set; }
+        public float Value { get; set; }
+        public long TimeStamp { get; set; }
     }
 }

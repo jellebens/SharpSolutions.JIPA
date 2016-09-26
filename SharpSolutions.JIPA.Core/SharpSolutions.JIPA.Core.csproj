@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="Mqtt\Topics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SharpSolutions.JIPA.Core.rd.xml" />
   </ItemGroup>

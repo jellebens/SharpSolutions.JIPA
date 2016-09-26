@@ -19,10 +19,8 @@ namespace SharpSolutions.JIPA.SensorService
         {
 
         }
-
         public string DeviceId { get; set; }
-        public string DeviceKey { get; set; }
-        public string IotHub { get; set; }
+        public string LocalBus { get; set; }
         public string Room { get; set; }
         public string Site { get; set; }
         

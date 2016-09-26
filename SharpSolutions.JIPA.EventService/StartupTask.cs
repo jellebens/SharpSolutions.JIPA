@@ -10,6 +10,7 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 using Microsoft.Azure.Devices.Client;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using SharpSolutions.JIPA.Core;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -41,8 +42,8 @@ namespace SharpSolutions.JIPA.EventService
 
             _Client.Subscribe(topics, qos);
 
-
-            string msg = string.Format("{{Message: \"{0}\", DeviceId=\"{1}\" Key:\"{2}\" TimeStamp:\"{3}\" }}", "JIPA Cloud Fowarding Service Started", Configuration.Default.DeviceId, "ServiceStarted", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
+            string msg = Messages.CreateServiceStartMsg("JIPA Cloud Fowarding Service", Configuration.Default.DeviceId);
+            
             _Client.Publish(JipaSystemTopic, Encoding.UTF8.GetBytes(msg));
 
 
@@ -64,7 +65,7 @@ namespace SharpSolutions.JIPA.EventService
 
         private void OnTaskInstanceCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-            string msg = string.Format("{{Message: \"{0}\", DeviceId=\"{1}\" Key:\"{2}\" TimeStamp:\"{3}\" }}", "JIPA Cloud Fowarding Service Started", Configuration.Default.DeviceId, "ServiceStopped", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
+            string msg = Messages.CreateServiceStopMsg("JIPA Cloud Fowarding Service", Configuration.Default.DeviceId);
             _Client.Publish(JipaSystemTopic, Encoding.UTF8.GetBytes(msg));
             _Client.Disconnect();
             _AzureClient.Dispose();
