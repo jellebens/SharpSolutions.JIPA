@@ -24,7 +24,6 @@ namespace SharpSolutions.JIPA.EventService
         public string DeviceKey { get; set; }
         public string IotHub { get; set; }
         
-        public Topic[] Topics { get; set; }
         public string LocalBus { get; set; }
 
         public string ClientId { get; set; }

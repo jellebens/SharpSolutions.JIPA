@@ -35,6 +35,8 @@ namespace SharpSolutions.JIPA.Views
             
             _ViewModel = App.Container.Resolve<HomeViewModel>();
             ThreadPoolTimer.CreatePeriodicTimer(OnTimeTimerElapsed, TimeSpan.FromMilliseconds(400));
+            _ViewModel.Dispatcher = this.Dispatcher;
+            
 
             this.DataContext = _ViewModel;
             

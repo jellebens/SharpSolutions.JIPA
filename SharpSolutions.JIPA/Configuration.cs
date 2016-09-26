@@ -21,9 +21,6 @@ namespace SharpSolutions.JIPA
         }
 
         public string DeviceId { get; set; }
-        public string SharedAccessKeyName { get; set; }
-        public string SharedAccessKey { get; set; }
-        public string EventHub { get; set; }
         public string Room { get; set; }
         public string Site { get; set; }
 
@@ -42,5 +39,7 @@ namespace SharpSolutions.JIPA
                 return _Current;
             }
         }
+
+        public string LocalBus { get; set; }
     }
 }

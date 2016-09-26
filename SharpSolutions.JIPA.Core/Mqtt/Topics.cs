@@ -11,5 +11,10 @@ namespace SharpSolutions.JIPA.Core.Mqtt
         public static string GetJipaSystemTopic() {
             return "/jipa/system";
         }
+
+        public static string GetOpenHabTopic()
+        {
+            return "/openhab";
+        }
     }
 }

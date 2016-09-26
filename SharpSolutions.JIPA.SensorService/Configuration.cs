@@ -40,5 +40,6 @@ namespace SharpSolutions.JIPA.SensorService
             }
         }
 
+        public string ClientId { get; set; }
     }
 }

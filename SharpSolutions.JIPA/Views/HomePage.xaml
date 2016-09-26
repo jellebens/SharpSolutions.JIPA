@@ -33,7 +33,7 @@
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <TextBlock Grid.Column="2" Grid.Row="0"  FontSize="50" TextAlignment="Center" Text="{Binding Temperature.Temperature}" Width="Auto"  />
-                
+                <TextBlock Grid.Column="2" Grid.Row="0"  FontSize="10" TextAlignment="Center" Text="{Binding Temperature.Label}" Width="Auto"  />
             </StackPanel>
         </Grid>
 

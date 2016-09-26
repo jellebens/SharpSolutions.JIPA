@@ -11,6 +11,7 @@ using Microsoft.Azure.Devices.Client;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using SharpSolutions.JIPA.Core;
+using SharpSolutions.JIPA.Core.Mqtt;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -37,10 +38,10 @@ namespace SharpSolutions.JIPA.EventService
             _Client.Connect(Configuration.Default.ClientId);
             
 
-            string[] topics = Configuration.Default.Topics.Select(x => x.Value).ToArray();
+            
             byte[] qos = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
 
-            _Client.Subscribe(topics, qos);
+            _Client.Subscribe(new[] { Topics.GetOpenHabTopic() }, qos);
 
             string msg = Messages.CreateServiceStartMsg("JIPA Cloud Fowarding Service", Configuration.Default.DeviceId);
             

@@ -108,7 +108,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Metering\TemperatureMeasuredEvent.cs" />
+    <Compile Include="Metering\MeteringMeasuredEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SharpSolutions.JIPA.Events.rd.xml" />
   </ItemGroup>

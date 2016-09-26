@@ -30,7 +30,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
             _Sensor = new BMP280();
             _Semaphore = new SemaphoreSlim(1);
             _Client = new MqttClient(Configuration.Default.LocalBus);
-            _Client.Connect(Configuration.Default.DeviceId);
+            _Client.Connect(Configuration.Default.ClientId);
 
             string msg = Messages.CreateServiceStartMsg("Jelle's Intelligent Personal Assistant's Sensors", Configuration.Default.DeviceId);
 
@@ -54,10 +54,10 @@ namespace SharpSolutions.JIPA.SensorService.Services
             try {
                 float temp = await _Sensor.ReadTemperature();
 
-                TemperatureMeasuredEvent evnt = new TemperatureMeasuredEvent();
+                MeteringMeasuredEvent evnt = new MeteringMeasuredEvent();
                 evnt.Key = string.Format("{0}_Temperature", Configuration.Default.DeviceId);
                 evnt.Site = Configuration.Default.Site;
-                evnt.Value = temp;
+                evnt.Value = temp.ToString();
                 evnt.TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
                 string payload = JsonConvert.SerializeObject(evnt);
