@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpSolutions.JIPA.SensorService
+namespace SharpSolutions.JIPA.EventService
 {
     public sealed class Configuration
     {
         private static readonly Configuration _Current = Load();
         static Configuration()
         {
-            _Current = Load();
+            
         }
         private Configuration()
         {
@@ -23,9 +23,12 @@ namespace SharpSolutions.JIPA.SensorService
         public string DeviceId { get; set; }
         public string DeviceKey { get; set; }
         public string IotHub { get; set; }
-        public string Room { get; set; }
-        public string Site { get; set; }
         
+        public Topic[] Topics { get; set; }
+        public string LocalBus { get; set; }
+
+        public string ClientId { get; set; }
+
         public static Configuration Load()
         {
 
