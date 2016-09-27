@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.JIPA.EventSe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{FC78ED81-0DE9-4B2E-B4FC-4DC38947AAB5}"
 	ProjectSection(SolutionItems) = preProject
-		C:\Users\jelle\AppData\Local\Temp\CloudStorage\gt5215sj.3s1\sensor-list.json = C:\Users\jelle\AppData\Local\Temp\CloudStorage\gt5215sj.3s1\sensor-list.json
+		sensor-list.json = sensor-list.json
 	EndProjectSection
 EndProject
 Global
