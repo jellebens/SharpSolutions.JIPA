@@ -15,6 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.JIPA.Core", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.JIPA.EventService", "SharpSolutions.JIPA.EventService\SharpSolutions.JIPA.EventService.csproj", "{F386557A-972A-4D02-B39D-D69BB486BF99}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{FC78ED81-0DE9-4B2E-B4FC-4DC38947AAB5}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\jelle\AppData\Local\Temp\CloudStorage\gt5215sj.3s1\sensor-list.json = C:\Users\jelle\AppData\Local\Temp\CloudStorage\gt5215sj.3s1\sensor-list.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
