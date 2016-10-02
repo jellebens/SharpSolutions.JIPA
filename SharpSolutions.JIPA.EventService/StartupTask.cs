@@ -24,8 +24,9 @@ namespace SharpSolutions.JIPA.EventService
         private BackgroundTaskDeferral _Deferral;
         private DeviceClient _AzureClient;
         private MqttClient _Client;
-        
-        public async void Run(IBackgroundTaskInstance taskInstance)
+        private string ServiceTopic = Topics.GetJipaSystemTopic() + "/JIPACloudFowardingService";
+
+        public void Run(IBackgroundTaskInstance taskInstance)
         {
             _Deferral = taskInstance.GetDeferral();
 
@@ -34,22 +35,29 @@ namespace SharpSolutions.JIPA.EventService
             _AzureClient = DeviceClient.Create(Configuration.Default.IotHub, AuthenticationMethodFactory.CreateAuthenticationWithRegistrySymmetricKey(Configuration.Default.DeviceId, Configuration.Default.DeviceKey), TransportType.Amqp);
             
             _Client = new MqttClient(Configuration.Default.LocalBus);
-            _Client.MqttMsgPublishReceived += OnClientMqttMsgPublishReceived;
-            _Client.Connect(Configuration.Default.ClientId);
             
+            _Client.MqttMsgPublishReceived += OnClientMqttMsgPublishReceived;
+            
+            _Client.Connect(Configuration.Default.ClientId, null, null, false, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, ServiceTopic, "offline", false, 0);
+            _Client.ConnectionClosed += OnClientConnectionClosed;
+            _Client.Publish(ServiceTopic, Encoding.UTF8.GetBytes("online"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
 
             
             byte[] qos = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
 
             _Client.Subscribe(new[] { Topics.GetOpenHabTopic() }, qos);
-
             string msg = Messages.CreateServiceStartMsg("JIPA Cloud Fowarding Service", Configuration.Default.DeviceId);
             
             _Client.Publish(JipaSystemTopic, Encoding.UTF8.GetBytes(msg));
 
 
         }
-        
+
+        private void OnClientConnectionClosed(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Connection Closed");
+        }
+
         private async void OnClientMqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             try
@@ -60,7 +68,10 @@ namespace SharpSolutions.JIPA.EventService
             }
             catch (Exception exc)
             {
-                Debug.WriteLine("Cought Exception " + exc.Message);
+                string msg = "Cought Exception " + exc.Message;
+                Debug.WriteLine(msg);
+
+                _Client.Publish(ServiceTopic + "/error", Encoding.UTF8.GetBytes(msg));
             }
         }
 

@@ -69,7 +69,9 @@ namespace SharpSolutions.JIPA.SensorService.Services
                     _Client.Publish("/openhab", msg);
                 }
                 catch (Exception exc) {
-                    Debug.WriteLine("-> Failed to sent message: " + exc.Message);
+                    string errMsg = "-> Failed to sent message: " + exc.Message;
+                    Debug.WriteLine(errMsg);
+                    _Client.Publish(Topics.GetJipaSystemTopic() + "/" + Configuration.Default.DeviceId + "/error/", Encoding.UTF8.GetBytes(errMsg));
                 }
             }finally {
                 _Semaphore.Release();

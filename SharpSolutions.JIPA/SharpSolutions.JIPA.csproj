@@ -100,6 +100,7 @@
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\TemperatureModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\Data\" />
+    <Folder Include="Converters\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>

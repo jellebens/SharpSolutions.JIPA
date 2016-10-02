@@ -16,6 +16,7 @@
         <vm:HomeViewModel/>
     </Page.DataContext>
 
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -25,15 +26,15 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="3*" />
-                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <TextBlock Grid.Column="1"  FontSize="50" TextAlignment="Center" Text="{Binding Time.Time}" Width="Auto" />
                 <TextBlock Grid.Column="1"  FontSize="25" TextAlignment="Center" Text="{Binding Time.Date}" Width="Auto" />
             </StackPanel>
-            <StackPanel Grid.Row="2">
+            <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
+                <TextBlock Grid.Column="2" Grid.Row="0"  FontSize="15" TextAlignment="Center" Text="{Binding Temperature.Label}" Width="Auto"  />
                 <TextBlock Grid.Column="2" Grid.Row="0"  FontSize="50" TextAlignment="Center" Text="{Binding Temperature.Temperature}" Width="Auto"  />
-                <TextBlock Grid.Column="2" Grid.Row="0"  FontSize="10" TextAlignment="Center" Text="{Binding Temperature.Label}" Width="Auto"  />
             </StackPanel>
         </Grid>
 
