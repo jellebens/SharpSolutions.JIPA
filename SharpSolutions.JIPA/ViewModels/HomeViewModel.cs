@@ -32,7 +32,7 @@ namespace SharpSolutions.JIPA.ViewModels
             MqttClient client = new MqttClient(Configuration.Current.LocalBus);
             client.MqttMsgPublishReceived += OnClientMessageReceived;
 
-            client.Connect("JIPA UI", null, null, false, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, ServiceTopic, "offline", false, 0);
+            client.Connect("JIPA UI", null, null, true, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, ServiceTopic, "offline", false, 0);
 
 
             client.Subscribe(new[] { Topics.GetOpenHabTopic() }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });

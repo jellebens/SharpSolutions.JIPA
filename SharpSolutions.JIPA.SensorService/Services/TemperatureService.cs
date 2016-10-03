@@ -29,12 +29,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
         {
             _Sensor = new BMP280();
             _Semaphore = new SemaphoreSlim(1);
-            _Client = new MqttClient(Configuration.Default.LocalBus);
-            _Client.Connect(Configuration.Default.ClientId);
-
-            string msg = Messages.CreateServiceStartMsg("Jelle's Intelligent Personal Assistant's Sensors", Configuration.Default.DeviceId);
-
-            _Client.Publish(Topics.GetJipaSystemTopic(), Encoding.UTF8.GetBytes(msg));
+            _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, Configuration.Default.ClientId);
         }
         
         public IAsyncAction Start() {
@@ -66,7 +61,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 
                 try
                 {
-                    _Client.Publish("/openhab", msg);
+                    _Client.Publish("bir57/sensors/temperature", msg);
                 }
                 catch (Exception exc) {
                     string errMsg = "-> Failed to sent message: " + exc.Message;
