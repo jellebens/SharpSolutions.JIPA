@@ -18,7 +18,7 @@ using Windows.UI.Core;
 
 namespace SharpSolutions.JIPA.ViewModels
 {
-    public class HomeViewModel: ViewModelBase
+    public class HomeViewModel : ViewModelBase
     {
         private string ServiceTopic = Topics.GetJipaSystemTopic() + "/JIPAUi";
 
@@ -29,33 +29,28 @@ namespace SharpSolutions.JIPA.ViewModels
             Temperature = new TemperatureModel();
             Message = new MessageModel();
 
-            MqttClient client = new MqttClient(Configuration.Current.LocalBus);
+            MqttClient client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
             client.MqttMsgPublishReceived += OnClientMessageReceived;
 
-            client.Connect("JIPA UI", null, null, true, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, ServiceTopic, "offline", false, 0);
 
-
-            client.Subscribe(new[] { Topics.GetOpenHabTopic() }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Publish(ServiceTopic, Encoding.UTF8.GetBytes("online"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            client.Subscribe(new[] { Topics.Temperature }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
         }
 
         private async void OnClientMessageReceived(object sender, MqttMsgPublishEventArgs e)
         {
             Message.Toggle = !Message.Toggle;
-            
+
             string msg = Encoding.UTF8.GetString(e.Message);
 
             MeteringMeasuredEvent evnt = JsonConvert.DeserializeObject<MeteringMeasuredEvent>(msg);
 
-            if (string.Equals(evnt.Key, "jipa_Temperature"))
+            string lbl = "Living Room";
+            if (Message.Toggle)
             {
-                string lbl = "Living Room";
-                if (Message.Toggle)
-                {
-                    lbl += ".";
-                }
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => UpdateTemperature(float.Parse(evnt.Value), lbl));
+                lbl += ".";
             }
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => UpdateTemperature(float.Parse(evnt.Value), lbl));
+
         }
 
         public TimeModel Time { get; private set; }
@@ -63,7 +58,8 @@ namespace SharpSolutions.JIPA.ViewModels
         public MessageModel Message { get; private set; }
         public CoreDispatcher Dispatcher { get; internal set; }
 
-        public void UpdateTemperature(float temp, string label) {
+        public void UpdateTemperature(float temp, string label)
+        {
             Temperature.Label = label;
             Temperature.Temperature = string.Format("{0:#0.0} °C", temp);
         }
@@ -74,6 +70,6 @@ namespace SharpSolutions.JIPA.ViewModels
             Time.Time = now.ToString("HH:mm:ss");
             Time.Date = now.ToString("ddd dd MMM yyy");
         }
-        
+
     }
 }

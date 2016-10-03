@@ -8,6 +8,9 @@ namespace SharpSolutions.JIPA.Core.Mqtt
 {
     public sealed class Topics
     {
+        public static string Sensors = "bir57/sensors";
+        public static string Temperature = Sensors + "/temperature";
+
         public static string GetJipaSystemTopic() {
             return "/jipa/system";
         }

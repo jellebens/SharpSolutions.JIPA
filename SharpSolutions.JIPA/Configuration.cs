@@ -23,7 +23,7 @@ namespace SharpSolutions.JIPA
         public string DeviceId { get; set; }
         public string Room { get; set; }
         public string Site { get; set; }
-
+        public string ClientId { get; set; }
         public static Configuration Load()
         {
 
