@@ -26,6 +26,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
         private ThreadPoolTimer _Timer;
         private MqttClient _Client;
         private LoggingChannel _LoggingChannel;
+        
         private const string Topic = "bir57/sensors/temperature";
 
         public TemperatureService(LoggingChannel loggingChannel)
@@ -34,11 +35,10 @@ namespace SharpSolutions.JIPA.SensorService.Services
             _Semaphore = new SemaphoreSlim(1);
             _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, Configuration.Default.ClientId);
             _LoggingChannel = loggingChannel;
-
-            Debug.WriteLine("Logging started Channel Id: {0}", _LoggingChannel.Id);
         }
         
         public IAsyncAction Start() {
+            _LoggingChannel.LogMessage("Service.Start()", LoggingLevel.Information);
             ///Crap construction for winrt WME1038
             return AsyncInfo.Run(async delegate (CancellationToken token)
             {
@@ -73,6 +73,9 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 
                 try
                 {
+                    if (!_Client.IsConnected) {
+                        _LoggingChannel.LogMessage("Client is not connected!", LoggingLevel.Critical);
+                    }
                     ushort messageId = _Client.Publish(Topic, msg);
                     _LoggingChannel.LogMessage(string.Format("Sent message with id: {0} to topic {1}",messageId, Topic), LoggingLevel.Verbose);
                 }
@@ -80,8 +83,6 @@ namespace SharpSolutions.JIPA.SensorService.Services
                     string errMsg = "-> Failed to sent message: " + exc.Message;
                     Debug.WriteLine(errMsg);
                     _LoggingChannel.LogMessage(errMsg, LoggingLevel.Critical);
-                    _Client.Publish(Topics.GetJipaSystemTopic() + "/" + Configuration.Default.DeviceId + "/error/", Encoding.UTF8.GetBytes(errMsg));
-
                 }
             }finally {
                 _Semaphore.Release();
