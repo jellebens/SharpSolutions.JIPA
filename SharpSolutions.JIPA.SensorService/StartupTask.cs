@@ -11,6 +11,7 @@ using Autofac;
 using System.Reflection;
 using SharpSolutions.JIPA.SensorService.Modules;
 using SharpSolutions.JIPA.SensorService.Services;
+using Windows.Foundation.Diagnostics;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -41,6 +42,8 @@ namespace SharpSolutions.JIPA.SensorService
             Assembly asm = typeof(IService).GetTypeInfo().Assembly;
 
             builder.RegisterAssemblyTypes(asm).Where(t => t.IsAssignableTo<IService>()).As<IService>();
+            
+            builder.Register(l => new LoggingChannel(Configuration.Default.ClientId, null, new Guid("b807ea70-0e15-592b-763f-e489fd7165d7"))).AsSelf(); 
 
             _Container = builder.Build();
 

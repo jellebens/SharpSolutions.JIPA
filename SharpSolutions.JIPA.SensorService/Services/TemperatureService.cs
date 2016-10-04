@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
 using Windows.Foundation;
+using Windows.Foundation.Diagnostics;
 using Windows.System.Threading;
 
 namespace SharpSolutions.JIPA.SensorService.Services
@@ -24,12 +25,17 @@ namespace SharpSolutions.JIPA.SensorService.Services
         private SemaphoreSlim _Semaphore;
         private ThreadPoolTimer _Timer;
         private MqttClient _Client;
+        private LoggingChannel _LoggingChannel;
+        private const string Topic = "bir57/sensors/temperature";
 
-        public TemperatureService()
+        public TemperatureService(LoggingChannel loggingChannel)
         {
             _Sensor = new BMP280();
             _Semaphore = new SemaphoreSlim(1);
             _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, Configuration.Default.ClientId);
+            _LoggingChannel = loggingChannel;
+
+            Debug.WriteLine("Logging started Channel Id: {0}", _LoggingChannel.Id);
         }
         
         public IAsyncAction Start() {
@@ -41,11 +47,17 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 _Timer = ThreadPoolTimer.CreatePeriodicTimer(OnTimerElapsedHandler, TimeSpan.FromSeconds(5));
             });
             
+            
+
         }
 
         private async void OnTimerElapsedHandler(ThreadPoolTimer timer)
         {
             if (!_Semaphore.Wait(0)) return; //if lock is being held exit immediately
+
+            _LoggingChannel.LogMessage("Reading temperature");
+
+
             try {
                 float temp = await _Sensor.ReadTemperature();
 
@@ -61,12 +73,15 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 
                 try
                 {
-                    _Client.Publish("bir57/sensors/temperature", msg);
+                    ushort messageId = _Client.Publish(Topic, msg);
+                    _LoggingChannel.LogMessage(string.Format("Sent message with id: {0} to topic {1}",messageId, Topic), LoggingLevel.Verbose);
                 }
                 catch (Exception exc) {
                     string errMsg = "-> Failed to sent message: " + exc.Message;
                     Debug.WriteLine(errMsg);
+                    _LoggingChannel.LogMessage(errMsg, LoggingLevel.Critical);
                     _Client.Publish(Topics.GetJipaSystemTopic() + "/" + Configuration.Default.DeviceId + "/error/", Encoding.UTF8.GetBytes(errMsg));
+
                 }
             }finally {
                 _Semaphore.Release();
