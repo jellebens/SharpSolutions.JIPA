@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{FC78ED81-0
 		sensor-list.json = sensor-list.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.Mqtt", "SharpSolutions.Mqtt\SharpSolutions.Mqtt.csproj", "{0416B440-0097-4C13-B546-C18957E9B1E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +142,22 @@ Global
 		{F386557A-972A-4D02-B39D-D69BB486BF99}.Release|x86.ActiveCfg = Release|x86
 		{F386557A-972A-4D02-B39D-D69BB486BF99}.Release|x86.Build.0 = Release|x86
 		{F386557A-972A-4D02-B39D-D69BB486BF99}.Release|x86.Deploy.0 = Release|x86
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|ARM.ActiveCfg = Debug|ARM
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|ARM.Build.0 = Debug|ARM
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|x64.ActiveCfg = Debug|x64
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|x64.Build.0 = Debug|x64
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|x86.ActiveCfg = Debug|x86
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Debug|x86.Build.0 = Debug|x86
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|ARM.ActiveCfg = Release|ARM
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|ARM.Build.0 = Release|ARM
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|x64.ActiveCfg = Release|x64
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|x64.Build.0 = Release|x64
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|x86.ActiveCfg = Release|x86
+		{0416B440-0097-4C13-B546-C18957E9B1E7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
