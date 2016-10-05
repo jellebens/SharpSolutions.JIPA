@@ -8,18 +8,23 @@ namespace SharpSolutions.JIPA.Models
 {
     public class MessageModel : ModelBase
     {
-        private bool _Toggle;
-        public bool Toggle
+        public MessageModel()
+        {
+            this.Label = '\xE871';
+        }
+        private char _Label;
+        public char Label
         {
             get
             {
-                return _Toggle;
+                return _Label;
             }
 
             set
             {
-                if (_Toggle != value) {
-                    _Toggle = value;
+                if (_Label != value)
+                {
+                    _Label = value;
                     OnPropertyChanged();
                 }
             }

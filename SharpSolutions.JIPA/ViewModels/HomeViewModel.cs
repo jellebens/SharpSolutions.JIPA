@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using Windows.ApplicationModel;
+using Windows.System.Threading;
 using Windows.UI.Core;
 
 namespace SharpSolutions.JIPA.ViewModels
@@ -21,7 +22,7 @@ namespace SharpSolutions.JIPA.ViewModels
     public class HomeViewModel : ViewModelBase
     {
         private string ServiceTopic = Topics.GetJipaSystemTopic() + "/JIPAUi";
-
+        private MqttClient _Client;
 
         public HomeViewModel()
         {
@@ -29,34 +30,49 @@ namespace SharpSolutions.JIPA.ViewModels
             Temperature = new TemperatureModel();
             Message = new MessageModel();
 
-            MqttClient client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
-            client.MqttMsgPublishReceived += OnClientMessageReceived;
+            _Client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
+            _Client.MqttMsgPublishReceived += OnClientMessageReceived;
 
 
-            client.Subscribe(new[] { Topics.Temperature }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            _Client.Subscribe(new[] { Topics.Temperature }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+            
+            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(30));
+        }
+
+        private async void OnKeepAliveTimerElapsed(ThreadPoolTimer timer)
+        {
+            if (Dispatcher == null) return; //guard clause
+
+            if (!_Client.IsConnected) {
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => MessageServiceOffline());
+                
+                _Client.Reconnect();
+            }
         }
 
         private async void OnClientMessageReceived(object sender, MqttMsgPublishEventArgs e)
         {
-            Message.Toggle = !Message.Toggle;
-
             string msg = Encoding.UTF8.GetString(e.Message);
 
             MeteringMeasuredEvent evnt = JsonConvert.DeserializeObject<MeteringMeasuredEvent>(msg);
 
             string lbl = "Living Room";
-            if (Message.Toggle)
-            {
-                lbl += ".";
-            }
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => UpdateTemperature(float.Parse(evnt.Value), lbl));
-
+            
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+                this.Message.Label = '\xE870';
+                UpdateTemperature(float.Parse(evnt.Value), lbl);
+            });
         }
 
         public TimeModel Time { get; private set; }
         public TemperatureModel Temperature { get; private set; }
         public MessageModel Message { get; private set; }
         public CoreDispatcher Dispatcher { get; internal set; }
+
+        public void MessageServiceOffline() {
+            this.Message.Label = '\xE871';
+        }
 
         public void UpdateTemperature(float temp, string label)
         {

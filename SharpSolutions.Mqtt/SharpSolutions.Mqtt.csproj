@@ -107,12 +107,6 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMqttClient.cs" />
-    <Compile Include="MqttClient.cs" />
-    <Compile Include="MqttMsgPublishedEventArgs.cs" />
-    <Compile Include="MqttMsgPublishEventArgs.cs" />
-    <Compile Include="MqttMsgSubscribedEventArgs.cs" />
-    <Compile Include="MqttMsgUnsubscribedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SharpSolutions.Mqtt.rd.xml" />
   </ItemGroup>

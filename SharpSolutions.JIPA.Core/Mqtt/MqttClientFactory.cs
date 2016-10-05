@@ -15,7 +15,18 @@ namespace SharpSolutions.JIPA.Core.Mqtt
         public static MqttClient CreateSubscriber(string brokerAddress, string clientId)
         {
             MqttClient client = new MqttClient(brokerAddress);
+            
+            client.Connect(clientId);
 
+            return client;
+        }
+
+        public static void PublishOnlineMessage(this MqttClient client, string clientId)
+        {
+            client.Publish(CreateWillTopic(clientId), Encoding.UTF8.GetBytes("online"), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, true);
+        }
+
+        public static MqttClient Connect(this MqttClient client, string clientId) {
             string willTopic = CreateWillTopic(clientId);
 
             client.Connect(clientId, null, null, true, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, willTopic, WillMessage, false, 60);
@@ -25,19 +36,17 @@ namespace SharpSolutions.JIPA.Core.Mqtt
             return client;
         }
 
-        private static void PublishOnlineMessage(this MqttClient client, string clientId)
-        {
-            client.Publish(CreateWillTopic(clientId), Encoding.UTF8.GetBytes("online"), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, true);
+        public static MqttClient Reconnect(this MqttClient client) {
+
+            client.Connect(client.ClientId);
+            
+            return client;
         }
 
         public static MqttClient CreatePublisher(string brokerAddress, string clientId) {
             MqttClient client = new MqttClient(brokerAddress);
 
-            string willTopic = CreateWillTopic(clientId);
-
-            client.Connect(clientId, null, null, true, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, willTopic, WillMessage, false, 60);
-
-            client.PublishOnlineMessage(clientId);
+            client.Connect(clientId);
 
             return client;
         }

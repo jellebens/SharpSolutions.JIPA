@@ -26,14 +26,26 @@ namespace SharpSolutions.JIPA.SensorService
         {
             _Deferral = taskInstance.GetDeferral();
 
+            taskInstance.Canceled += OnTaskCanceled;
+
             Initialize();
 
             IEnumerable<IService> services = _Container.Resolve<IEnumerable<IService>>();
-
+            
             foreach (IService svc in services)
             {
                 await svc.Start();
             }
+        }
+
+        private void OnTaskCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            LoggingChannel Logger = _Container.Resolve<LoggingChannel>();
+
+            Logger.LogMessage("Canceling Task", LoggingLevel.Warning);
+
+            _Deferral.Complete();
+            _Container.Dispose();
         }
 
         private void Initialize() {

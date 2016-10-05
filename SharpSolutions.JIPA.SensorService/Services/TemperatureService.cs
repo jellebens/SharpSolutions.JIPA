@@ -34,6 +34,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
             _Sensor = new BMP280();
             _Semaphore = new SemaphoreSlim(1);
             _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, Configuration.Default.ClientId);
+
             _LoggingChannel = loggingChannel;
         }
         
@@ -54,10 +55,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
         private async void OnTimerElapsedHandler(ThreadPoolTimer timer)
         {
             if (!_Semaphore.Wait(0)) return; //if lock is being held exit immediately
-
-            _LoggingChannel.LogMessage("Reading temperature");
-
-
+            
             try {
                 float temp = await _Sensor.ReadTemperature();
 
@@ -74,13 +72,13 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 try
                 {
                     if (!_Client.IsConnected) {
-                        _LoggingChannel.LogMessage("Client is not connected!", LoggingLevel.Critical);
+                        _LoggingChannel.LogMessage("Client is not connected. reconnecting", LoggingLevel.Information);
+                        _Client.Reconnect();
                     }
                     ushort messageId = _Client.Publish(Topic, msg);
-                    _LoggingChannel.LogMessage(string.Format("Sent message with id: {0} to topic {1}",messageId, Topic), LoggingLevel.Verbose);
                 }
                 catch (Exception exc) {
-                    string errMsg = "-> Failed to sent message: " + exc.Message;
+                    string errMsg = "Failed to sent message: " + exc.Message;
                     Debug.WriteLine(errMsg);
                     _LoggingChannel.LogMessage(errMsg, LoggingLevel.Critical);
                 }
