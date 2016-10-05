@@ -23,6 +23,7 @@ namespace SharpSolutions.JIPA.ViewModels
     {
         private string ServiceTopic = Topics.GetJipaSystemTopic() + "/JIPAUi";
         private MqttClient _Client;
+        
 
         public HomeViewModel()
         {
@@ -60,7 +61,7 @@ namespace SharpSolutions.JIPA.ViewModels
             string lbl = "Living Room";
             
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-                this.Message.Label = '\xE870';
+                this.Message.UpdateLabel();
                 UpdateTemperature(float.Parse(evnt.Value), lbl);
             });
         }
