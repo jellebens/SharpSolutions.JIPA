@@ -38,17 +38,21 @@ namespace SharpSolutions.JIPA.ViewModels
             _Client.Subscribe(new[] { Topics.Temperature }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
             
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(30));
+            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(1));
         }
 
         private async void OnKeepAliveTimerElapsed(ThreadPoolTimer timer)
         {
             if (Dispatcher == null) return; //guard clause
 
-            if (!_Client.IsConnected) {
+            if (!_Client.IsConnected)
+            {
                 await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => MessageServiceOffline());
-                
+
                 _Client.Reconnect();
+            }
+            else {
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => this.Message.UpdateLabel());
             }
         }
 
@@ -61,7 +65,7 @@ namespace SharpSolutions.JIPA.ViewModels
             string lbl = "Living Room";
             
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-                this.Message.UpdateLabel();
+                
                 UpdateTemperature(float.Parse(evnt.Value), lbl);
             });
         }

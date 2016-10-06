@@ -73,6 +73,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 {
                     if (!_Client.IsConnected) {
                         _LoggingChannel.LogMessage("Client is not connected. reconnecting", LoggingLevel.Information);
+                        
                         _Client.Reconnect();
                     }
                     ushort messageId = _Client.Publish(Topic, msg);

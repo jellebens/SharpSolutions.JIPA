@@ -16,7 +16,7 @@ namespace SharpSolutions.JIPA.Core.Mqtt
         {
             MqttClient client = new MqttClient(brokerAddress);
             
-            client.Connect(clientId);
+            client.ConnectAndSendBirthMessage(clientId);
 
             return client;
         }
@@ -26,7 +26,7 @@ namespace SharpSolutions.JIPA.Core.Mqtt
             client.Publish(CreateWillTopic(clientId), Encoding.UTF8.GetBytes("online"), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, true);
         }
 
-        public static MqttClient Connect(this MqttClient client, string clientId) {
+        public static MqttClient ConnectAndSendBirthMessage(this MqttClient client, string clientId) {
             string willTopic = CreateWillTopic(clientId);
 
             client.Connect(clientId, null, null, true, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, willTopic, WillMessage, false, 60);
@@ -38,7 +38,7 @@ namespace SharpSolutions.JIPA.Core.Mqtt
 
         public static MqttClient Reconnect(this MqttClient client) {
 
-            client.Connect(client.ClientId);
+            client.ConnectAndSendBirthMessage(client.ClientId);
             
             return client;
         }
@@ -46,7 +46,7 @@ namespace SharpSolutions.JIPA.Core.Mqtt
         public static MqttClient CreatePublisher(string brokerAddress, string clientId) {
             MqttClient client = new MqttClient(brokerAddress);
 
-            client.Connect(clientId);
+            client.ConnectAndSendBirthMessage(clientId);
 
             return client;
         }
