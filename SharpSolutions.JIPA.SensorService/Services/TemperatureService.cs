@@ -33,13 +33,13 @@ namespace SharpSolutions.JIPA.SensorService.Services
         {
             _Sensor = new BMP280();
             _Semaphore = new SemaphoreSlim(1);
-            _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, Configuration.Default.ClientId);
+            _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, $"TemperatureService_{Configuration.Default.ClientId}");
 
             _LoggingChannel = loggingChannel;
         }
         
         public IAsyncAction Start() {
-            _LoggingChannel.LogMessage("Service.Start()", LoggingLevel.Information);
+            _LoggingChannel.LogMessage("TemperatureService.Start()", LoggingLevel.Information);
             ///Crap construction for winrt WME1038
             return AsyncInfo.Run(async delegate (CancellationToken token)
             {
@@ -60,7 +60,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 float temp = await _Sensor.ReadTemperature();
 
                 MeteringMeasuredEvent evnt = new MeteringMeasuredEvent();
-                evnt.Key = string.Format("{0}_Temperature", Configuration.Default.DeviceId);
+                evnt.Key = string.Format("{0}_temperature", Configuration.Default.DeviceId);
                 evnt.Site = Configuration.Default.Site;
                 evnt.Value = temp.ToString();
                 evnt.Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();

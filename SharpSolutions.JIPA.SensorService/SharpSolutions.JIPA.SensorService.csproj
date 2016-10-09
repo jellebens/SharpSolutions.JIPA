@@ -101,6 +101,7 @@
     <Compile Include="Modules\SensorModule.cs" />
     <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\MotionService.cs" />
     <Compile Include="Services\TemperatureService.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -111,6 +111,7 @@
     <Compile Include="BMP280CalibrationData.cs" />
     <Compile Include="BMP280.cs" />
     <Compile Include="IBMP280.cs" />
+    <Compile Include="PirSensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SharpSolutions.JIPA.Sensors.rd.xml" />
   </ItemGroup>

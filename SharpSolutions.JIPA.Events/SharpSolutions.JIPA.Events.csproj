@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Metering\MeteringMeasuredEvent.cs" />
+    <Compile Include="Metering\MotionDetectedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SharpSolutions.JIPA.Events.rd.xml" />
   </ItemGroup>
