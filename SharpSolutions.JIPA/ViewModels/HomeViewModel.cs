@@ -2,11 +2,14 @@
 using Newtonsoft.Json;
 using ppatierno.AzureSBLite;
 using ppatierno.AzureSBLite.Messaging;
+using SharpSolutions.JIPA.Contracts.Data;
 using SharpSolutions.JIPA.Core.Mqtt;
 using SharpSolutions.JIPA.Events.Metering;
 using SharpSolutions.JIPA.Models;
+using SharpSolutions.JIPA.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -21,8 +24,9 @@ namespace SharpSolutions.JIPA.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        private string ServiceTopic = Topics.GetJipaSystemTopic() + "/JIPAUi";
+        
         private MqttClient _Client;
+        private SensorService _SensorService;
         
 
         public HomeViewModel()
@@ -30,12 +34,13 @@ namespace SharpSolutions.JIPA.ViewModels
             Time = new TimeModel();
             Temperature = new TemperatureModel();
             Message = new MessageModel();
+            PowerConsumption = new ObservableCollection<PowerConsumptionModel>();
+
+            _SensorService = SensorService.Create();
 
             _Client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
             _Client.MqttMsgPublishReceived += OnClientMessageReceived;
-
-
-            _Client.Subscribe(new[] { Topics.Temperature }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            _Client.Subscribe(new[] { Topics.AllSensors }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
             
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(1));
@@ -58,28 +63,64 @@ namespace SharpSolutions.JIPA.ViewModels
 
         private async void OnClientMessageReceived(object sender, MqttMsgPublishEventArgs e)
         {
+            if (this.Dispatcher == null) return;
+
             string msg = Encoding.UTF8.GetString(e.Message);
 
             MeteringMeasuredEvent evnt = JsonConvert.DeserializeObject<MeteringMeasuredEvent>(msg);
 
-            string lbl = "Living Room";
+            Sensor s;
+
+            if (!_SensorService.TryGet(evnt.Key, out s)) return;
+
+            //TODO Refactor this
+            if (string.Equals(s.Type, "Temperature", StringComparison.CurrentCultureIgnoreCase)) {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+
+                    UpdateTemperature(s.Name, float.Parse(evnt.Value));
+                });
+            }
+
+            if (string.Equals(s.Type, "Power Sensor", StringComparison.CurrentCultureIgnoreCase)) {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+                    
+                    UpdatePower(s.Name, float.Parse(evnt.Value));
+                });
+            }
             
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-                
-                UpdateTemperature(float.Parse(evnt.Value), lbl);
-            });
+            
+        }
+
+        private void UpdatePower(string name ,float value)
+        {
+
+
+            if (!PowerConsumption.Any(i => i.Name == name))
+            {
+                PowerConsumptionModel m = new PowerConsumptionModel();
+                m.Value = value;
+                m.Name = name;
+                PowerConsumption.Add(m);
+            }
+            else {
+                PowerConsumptionModel model =  PowerConsumption.Single(i => i.Name == name);
+                model.Value = value;
+            }
         }
 
         public TimeModel Time { get; private set; }
         public TemperatureModel Temperature { get; private set; }
         public MessageModel Message { get; private set; }
+
+        public ObservableCollection<PowerConsumptionModel> PowerConsumption { get; set; }
+
         public CoreDispatcher Dispatcher { get; internal set; }
 
         public void MessageServiceOffline() {
             this.Message.Label = '\xE871';
         }
 
-        public void UpdateTemperature(float temp, string label)
+        public void UpdateTemperature(string label, float temp)
         {
             Temperature.Label = label;
             Temperature.Temperature = string.Format("{0:#0.0} °C", temp);

@@ -1,177 +1,185 @@
 [
-    {
-        "Key": "jipa_Temperature",
-        "Name": "Living Room",
-        "Type": "Temperature",
-        "Description": "Indicates temperature in degrees Celsius",
-        "Unit": "°C"
-    },
-    {
-        "Key": "network_device_192_168_1_1_online",
-        "Name": "Router",
-        "Type": "Networkdevice Online",
-        "Description": "Indicates if a device is online or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "network_device_192_168_1_10_online",
-        "Name": "JIPA",
-        "Type": "Networkdevice Online",
-        "Description": "Indicates if a device is online or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "network_device_192_168_1_12_online",
-        "Name": "OpenhabPi",
-        "Type": "Networkdevice Online",
-        "Description": "Indicates if a device is online or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "network_device_192_168_1_2_online",
-        "Name": "ATHENA",
-        "Type": "Networkdevice Online",
-        "Description": "Indicates if a device is online or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "network_device_322bb7d0_online",
-        "Name": "Game PC",
-        "Type": "Networkdevice Online",
-        "Description": "Indicates if a device is online or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "network_device_fe4d024f_online",
-        "Name": "HTPC",
-        "Type": "Networkdevice Online",
-        "Description": "Indicates if a device is online or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "samsungtv_tv_0db58581_00e6_1000_851e_84a466a7bade_power",
-        "Name": "HTS",
-        "Type": "Samsung Device Online",
-        "Description": "Indicates if a samsung device is powered on or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "samsungtv_tv_1017df82_000e_1000_aa9a_244b03a93bd5_power",
-        "Name": "TV",
-        "Type": "Samsung Device Online",
-        "Description": "Indicates if a samsung device is powered on or not (1 or 0)",
-        "Unit": "N/A"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node4_meter_kwh",
-        "Name": "Waterheater",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "kWh"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node4_meter_watts",
-        "Name": "Waterheater",
-        "Type": "Electric Meter",
-        "Description": "Indicates the instantaneous power consumption in Watts",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node4_sensor_power",
-        "Name": "Waterheater",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node4_switch_binary",
-        "Name": "Waterheater",
-        "Type": "Electric Meter",
-        "Description": "Indicates if the switch is on or off (1 or 0)",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node7_meter_kwh",
-        "Name": "Washing machine",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "kWh"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node7_meter_watts",
-        "Name": "Washing machine",
-        "Type": "Electric Meter",
-        "Description": "Indicates the instantaneous power consumption in Watts",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node7_sensor_power",
-        "Name": "Washing machine",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node7_switch_binary",
-        "Name": "Washing machine",
-        "Type": "Electric Meter",
-        "Description": "Indicates if the switch is on or off (1 or 0)",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node8_meter_kwh",
-        "Name": "Dryer",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "kWh"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node8_meter_watts",
-        "Name": "Dryer",
-        "Type": "Electric Meter",
-        "Description": "Indicates the instantaneous power consumption in Watts",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node8_sensor_power",
-        "Name": "Dryer",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node8_switch_binary",
-        "Name": "Dryer",
-        "Type": "Electric Meter",
-        "Description": "Indicates if the switch is on or off (1 or 0)",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node9_meter_kwh",
-        "Name": "Computer and TV",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "kWh"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node9_meter_watts",
-        "Name": "Computer and TV",
-        "Type": "Electric Meter",
-        "Description": "Indicates the instantaneous power consumption in Watts",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node9_sensor_power",
-        "Name": "Computer and TV",
-        "Type": "Electric Meter",
-        "Description": "Indicates the energy consumption (kWh)",
-        "Unit": "watts"
-    },
-    {
-        "Key": "zwave_device_1a07c095_node9_switch_binary",
-        "Name": "Computer and TV",
-        "Type": "Electric Meter",
-        "Description": "Indicates if the switch is on or off (1 or 0)",
-        "Unit": "watts"
-    }
+  {
+    "Key": "jipa_temperature",
+    "Name": "Living Room Temperature",
+    "Type": "Temperature",
+    "Description": "Indicates temperature in degrees Celsius",
+    "Unit": "°C"
+  },
+  {
+    "Key": "network_device_192_168_1_1_online",
+    "Name": "Router",
+    "Type": "Networkdevice Online",
+    "Description": "Indicates if a device is online or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "network_device_192_168_1_10_online",
+    "Name": "JIPA",
+    "Type": "Networkdevice Online",
+    "Description": "Indicates if a device is online or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "network_device_192_168_1_12_online",
+    "Name": "OpenhabPi",
+    "Type": "Networkdevice Online",
+    "Description": "Indicates if a device is online or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "network_device_192_168_1_2_online",
+    "Name": "ATHENA",
+    "Type": "Networkdevice Online",
+    "Description": "Indicates if a device is online or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "network_device_322bb7d0_online",
+    "Name": "Game PC",
+    "Type": "Networkdevice Online",
+    "Description": "Indicates if a device is online or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "network_device_fe4d024f_online",
+    "Name": "HTPC",
+    "Type": "Networkdevice Online",
+    "Description": "Indicates if a device is online or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "samsungtv_tv_0db58581_00e6_1000_851e_84a466a7bade_power",
+    "Name": "HTS",
+    "Type": "Samsung Device Online",
+    "Description": "Indicates if a samsung device is powered on or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "samsungtv_tv_1017df82_000e_1000_aa9a_244b03a93bd5_power",
+    "Name": "TV",
+    "Type": "Samsung Device Online",
+    "Description": "Indicates if a samsung device is powered on or not (1 or 0)",
+    "Unit": "N/A"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node4_meter_kwh",
+    "Name": "Waterheater",
+    "Type": "Electric Meter",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "kWh"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node4_meter_watts",
+    "Name": "Waterheater",
+    "Type": "Electric Meter",
+    "Description": "Indicates the instantaneous power consumption in Watts",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node4_sensor_power",
+    "Name": "Waterheater",
+    "Type": "Power Sensor",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node4_switch_binary",
+    "Name": "Waterheater",
+    "Type": "Switch",
+    "Description": "Indicates if the switch is on or off (1 or 0)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node7_meter_kwh",
+    "Name": "Washing machine",
+    "Type": "Electric Meter",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "kWh"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node7_meter_watts",
+    "Name": "Washing machine",
+    "Type": "Electric Meter",
+    "Description": "Indicates the instantaneous power consumption in Watts",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node7_sensor_power",
+    "Name": "Washing machine",
+    "Type": "Power Sensor",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node7_switch_binary",
+    "Name": "Washing machine",
+    "Type": "Switch",
+    "Description": "Indicates if the switch is on or off (1 or 0)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node8_meter_kwh",
+    "Name": "Dryer",
+    "Type": "Electric Meter",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "kWh"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node8_meter_watts",
+    "Name": "Dryer",
+    "Type": "Electric Meter",
+    "Description": "Indicates the instantaneous power consumption in Watts",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node8_sensor_power",
+    "Name": "Dryer",
+    "Type": "Power Sensor",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node8_switch_binary",
+    "Name": "Dryer",
+    "Type": "Switch",
+    "Description": "Indicates if the switch is on or off (1 or 0)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node9_meter_kwh",
+    "Name": "Computer and TV",
+    "Type": "Electric Meter",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "kWh"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node9_meter_watts",
+    "Name": "Computer and TV",
+    "Type": "Electric Meter",
+    "Description": "Indicates the instantaneous power consumption in Watts",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node9_sensor_power",
+    "Name": "Computer and TV",
+    "Type": "Power Sensor",
+    "Description": "Indicates the energy consumption (kWh)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "zwave_device_1a07c095_node9_switch_binary",
+    "Name": "Computer and TV",
+    "Type": "Switch",
+    "Description": "Indicates if the switch is on or off (1 or 0)",
+    "Unit": "watts"
+  },
+  {
+    "Key": "jipa_motion",
+    "Name": "Living Room Motion",
+    "Type": "Motion",
+    "Description": "Indicates wether there is motion",
+    "Unit": "N/A"
+  }
+
 ]

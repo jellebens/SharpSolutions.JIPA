@@ -90,6 +90,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="..\sensor-list.json">
+      <Link>Data\sensor-list.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -100,13 +104,16 @@
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\Data\Sensor.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\PowerConsumptionModel.cs" />
     <Compile Include="Models\TemperatureModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
     <Compile Include="Modules\ModuleBase.cs" />
     <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SensorService.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Modules\ViewModelModule.cs" />
@@ -148,9 +155,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Contracts\Data\" />
     <Folder Include="Converters\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpSolutions.JIPA.Core\SharpSolutions.JIPA.Core.csproj">
@@ -161,6 +166,11 @@
       <Project>{4bc11540-5ada-4da0-a1ac-f741a56a1870}</Project>
       <Name>SharpSolutions.JIPA.Events</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Telerik UI For Universal Windows Platform, Version=2016.3.914.45">
+      <Name>Telerik UI For Universal Windows Platform</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -17,6 +17,8 @@ using SharpSolutions.JIPA.ViewModels;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using System.Threading.Tasks;
+using Telerik.UI.Xaml.Controls.Chart;
+using SharpSolutions.JIPA.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,20 +34,29 @@ namespace SharpSolutions.JIPA.Views
         public HomePage()
         {
             this.InitializeComponent();
-            
+
             _ViewModel = App.Container.Resolve<HomeViewModel>();
             ThreadPoolTimer.CreatePeriodicTimer(OnTimeTimerElapsed, TimeSpan.FromMilliseconds(400));
             _ViewModel.Dispatcher = this.Dispatcher;
-            
+
 
             this.DataContext = _ViewModel;
-            
+
+            series.ValueBinding = new GenericDataPointBinding<PowerConsumptionModel, double>()
+            {
+                ValueSelector = item => item.Value,
+            };
+
+            series.CategoryBinding = new GenericDataPointBinding<PowerConsumptionModel, string>()
+            {
+                ValueSelector = item => item.Name,
+            };
         }
 
-        
+
         private async void OnTimeTimerElapsed(ThreadPoolTimer timer)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal ,() => _ViewModel.UpdateTime());
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _ViewModel.UpdateTime());
         }
     }
 }
