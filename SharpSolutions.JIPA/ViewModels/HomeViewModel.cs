@@ -31,6 +31,7 @@ namespace SharpSolutions.JIPA.ViewModels
 
         public HomeViewModel()
         {
+            //
             Time = new TimeModel();
             Temperature = new TemperatureModel();
             Message = new MessageModel();
