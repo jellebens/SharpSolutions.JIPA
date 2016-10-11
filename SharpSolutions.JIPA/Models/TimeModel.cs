@@ -8,7 +8,6 @@ namespace SharpSolutions.JIPA.Models
 {
     public class TimeModel: ModelBase
     {
-
         private string _Date;
         public string Date
         {
@@ -26,6 +25,8 @@ namespace SharpSolutions.JIPA.Models
                 }
             }
         }
+
+        public string Test { get; set; }
 
         private string _Time;
         public string Time

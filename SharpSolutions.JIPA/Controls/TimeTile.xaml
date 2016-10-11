@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="SharpSolutions.JIPA.Controls.TimeTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SharpSolutions.JIPA.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:m="using:SharpSolutions.JIPA.Models"
+    d:DataContext="{d:DesignData Source=/SampleData/Time.json, Type=m:TimeModel}"
+    mc:Ignorable="d"
+    Height="71"
+    Width="150">
+
+    <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right">
+        <TextBlock Text="{Binding Time} " FontSize="40" FontWeight="Bold" />
+        <StackPanel  Width="37">
+            <TextBlock FontSize="6" Text="mon" TextAlignment="Right" />
+            <TextBlock Text="20" FontSize="20" Margin="0,-6,0,0" TextAlignment="Right" />
+        </StackPanel>
+        
+    </StackPanel>
+</UserControl>

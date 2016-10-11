@@ -94,6 +94,7 @@
       <Link>Data\sensor-list.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="SampleData\Time.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +106,12 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\Data\Sensor.cs" />
+    <Compile Include="Controls\TemperatureTile.xaml.cs">
+      <DependentUpon>TemperatureTile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TimeTile.xaml.cs">
+      <DependentUpon>TimeTile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PowerConsumptionModel.cs" />
@@ -149,6 +156,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\TemperatureTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TimeTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
+    <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpSolutions.JIPA.Core\SharpSolutions.JIPA.Core.csproj">
@@ -166,11 +182,6 @@
       <Project>{4bc11540-5ada-4da0-a1ac-f741a56a1870}</Project>
       <Name>SharpSolutions.JIPA.Events</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="Telerik UI For Universal Windows Platform, Version=2016.3.914.45">
-      <Name>Telerik UI For Universal Windows Platform</Name>
-    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

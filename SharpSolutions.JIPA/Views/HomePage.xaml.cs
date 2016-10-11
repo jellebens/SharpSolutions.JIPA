@@ -17,7 +17,6 @@ using SharpSolutions.JIPA.ViewModels;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using System.Threading.Tasks;
-using Telerik.UI.Xaml.Controls.Chart;
 using SharpSolutions.JIPA.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -41,16 +40,6 @@ namespace SharpSolutions.JIPA.Views
 
 
             this.DataContext = _ViewModel;
-
-            series.ValueBinding = new GenericDataPointBinding<PowerConsumptionModel, double>()
-            {
-                ValueSelector = item => item.Value,
-            };
-
-            series.CategoryBinding = new GenericDataPointBinding<PowerConsumptionModel, string>()
-            {
-                ValueSelector = item => item.Name,
-            };
         }
 
 
