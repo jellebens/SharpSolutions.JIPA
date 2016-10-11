@@ -17,7 +17,6 @@ using SharpSolutions.JIPA.ViewModels;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using System.Threading.Tasks;
-using Telerik.UI.Xaml.Controls.Chart;
 using SharpSolutions.JIPA.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -35,12 +34,12 @@ namespace SharpSolutions.JIPA.Views
         {
             this.InitializeComponent();
 
-            _ViewModel = App.Container.Resolve<HomeViewModel>();
-            ThreadPoolTimer.CreatePeriodicTimer(OnTimeTimerElapsed, TimeSpan.FromMilliseconds(400));
-            _ViewModel.Dispatcher = this.Dispatcher;
+            //_ViewModel = App.Container.Resolve<HomeViewModel>();
+            //ThreadPoolTimer.CreatePeriodicTimer(OnTimeTimerElapsed, TimeSpan.FromMilliseconds(400));
+            //_ViewModel.Dispatcher = this.Dispatcher;
 
 
-            this.DataContext = _ViewModel;
+            //this.DataContext = _ViewModel;
         }
 
 

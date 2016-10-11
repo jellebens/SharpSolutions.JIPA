@@ -1,0 +1,28 @@
+﻿<UserControl
+    x:Class="SharpSolutions.JIPA.Controls.TemperatureTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SharpSolutions.JIPA.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:t="using:WinRTXamlToolkit.Controls"
+    mc:Ignorable="d"
+    Height="160"
+    Width="160">
+
+    <Border Margin="5">
+        <t:Gauge
+                    Minimum="10"
+                    Maximum="45"
+                    Value="27.4"
+                    NeedleBrush="Transparent"
+                    ScaleTickBrush="Transparent"
+                    ScaleBrush="DarkSlateGray"
+                    TickBrush="Black"
+                    TrailBrush="DarkSeaGreen"
+                    ValueBrush="DarkSeaGreen"
+                    ValueStringFormat="N1"
+                    Unit="° Celsius"
+                    UnitBrush="DarkGray" />
+    </Border>
+</UserControl>

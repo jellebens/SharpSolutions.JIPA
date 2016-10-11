@@ -22,11 +22,7 @@ namespace SharpSolutions.JIPA.Models
             }
             set
             {
-                if (_Temperature != value)
-                {
-                    _Temperature = value;
-                    OnPropertyChanged();
-                }
+                SetField(ref _Temperature, value);
             }
         }
 
@@ -40,11 +36,7 @@ namespace SharpSolutions.JIPA.Models
             }
             set
             {
-                if (_Label != value)
-                {
-                    _Label = value;
-                    OnPropertyChanged();
-                }
+                SetField(ref _Label, value);
             }
         }
     }

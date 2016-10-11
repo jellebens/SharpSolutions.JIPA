@@ -8,41 +8,25 @@ namespace SharpSolutions.JIPA.Models
 {
     public class TimeModel: ModelBase
     {
-
-        private string _Date;
-        public string Date
+        private string _Weekday;
+        public string Weekday
         {
-            get
-            {
-                return _Date;
-            }
+            get { return _Weekday; } 
+            set { SetField(ref _Weekday, value); }
+        }
 
-            set
-            {
-                if (_Date != value)
-                {
-                    _Date = value;
-                    OnPropertyChanged();
-                }
-            }
+        private string _Day;
+        public string Day
+        {
+            get { return _Day; }
+            set { SetField(ref _Day, value); }
         }
 
         private string _Time;
         public string Time
         {
-            get
-            {
-                return _Time;
-            }
-
-            set
-            {
-                if (_Time != value)
-                {
-                    _Time = value;
-                    OnPropertyChanged();
-                }
-            }
+            get{ return _Time; }
+            set{ SetField(ref _Time, value); }
         }
     }
 }

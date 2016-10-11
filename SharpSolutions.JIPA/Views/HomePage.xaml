@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:SharpSolutions.JIPA.ViewModels"
-    xmlns:m="using:SharpSolutions.JIPA.Models"
+    xmlns:c="using:SharpSolutions.JIPA.Controls"
     x:Class="SharpSolutions.JIPA.Views.HomePage"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:HomeViewModel}"
@@ -19,51 +19,44 @@
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        <Grid.RowDefinitions>
+            <!--0-->
+            <RowDefinition Height="1*" />
+            <!--1-->
+            <RowDefinition Height="1*" />
+            <!--2-->
+            <RowDefinition Height="1*" />
+            <!--3-->
+            <RowDefinition Height="1*" />
+            <!--4-->
+            <RowDefinition Height="1*" />
+            <!--5-->
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
+            <!--0-->
+            <ColumnDefinition Width="1*"/>
+            <!--1-->
+            <ColumnDefinition Width="1*"/>
+            <!--2-->
+            <ColumnDefinition Width="1*"/>
+            <!--3-->
+            <ColumnDefinition Width="1*"/>
+            <!--4-->
+            <ColumnDefinition Width="1*"/>
+            <!--5-->
+            <ColumnDefinition Width="1*"/>
+            <!--6-->
+            <ColumnDefinition Width="1*"/>
+            <!--7-->
+            <ColumnDefinition Width="1*"/>
+            <!--8-->
+            <ColumnDefinition Width="1*"/>
+            <!--9-->
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="2" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="3*" />
-                <RowDefinition Height="2*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0"  Grid.RowSpan="2">
-                <TextBlock Grid.Column="1"  FontSize="50" TextAlignment="Left" Text="{Binding Time.Time}" Width="Auto" />
-                <TextBlock Grid.Column="1"  FontSize="22" TextAlignment="Left" Text="{Binding Time.Date}" Width="Auto" />
-            </StackPanel>
-            <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48"/>
-                        <ColumnDefinition Width="24"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"  Grid.Row="0"  FontSize="15" TextAlignment="Left" Text="Mqtt: "   />
-                    <TextBlock Grid.Column="1"  FontFamily="Segoe MDL2 Assets" TextAlignment="Right" FontSize="15" Text="{Binding Message.Label}" />
-                </Grid>
-            </StackPanel>
-            <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
-                <TextBlock FontSize="25" TextAlignment="Left" Text="{Binding Temperature.Label}" Width="Auto"  />
-                <TextBlock FontSize="50" TextAlignment="Left" Text="{Binding Temperature.Temperature}" Width="Auto"  />
-            </StackPanel>
-        </Grid>
-
-        <ListView ItemsSource="{Binding PowerConsumption}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="m:PowerConsumptionModel">
-                    <StackPanel Orientation="Horizontal" Margin="6">
-                        <SymbolIcon Symbol="Send" Margin="0,0,12,0"/>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name }" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding Value }"/>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-
-        </ListView>
+        <c:TimeTile Grid.Column="8" Grid.ColumnSpan="2"/>
+        <c:TemperatureTile Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" />
 
     </Grid>
 </Page>

@@ -15,10 +15,7 @@ namespace SharpSolutions.JIPA.Models
             }
 
             set {
-                if (_Value != value) {
-                    _Value = value;
-                    OnPropertyChanged();
-                }
+                SetField(ref _Value,value);
             }
         }
 
@@ -28,10 +25,7 @@ namespace SharpSolutions.JIPA.Models
                 return _Name;
             }
             set {
-                if (_Name != value) {
-                    _Name = value;
-                    OnPropertyChanged();
-                }
+                SetField(ref _Name, value);
             }
         }
     }

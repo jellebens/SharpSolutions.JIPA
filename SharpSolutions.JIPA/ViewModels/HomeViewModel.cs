@@ -129,9 +129,7 @@ namespace SharpSolutions.JIPA.ViewModels
 
         public void UpdateTime()
         {
-            DateTime now = DateTime.Now;
-            Time.Time = now.ToString("HH:mm:ss");
-            Time.Date = now.ToString("ddd dd MMM yyy");
+            
         }
 
     }
