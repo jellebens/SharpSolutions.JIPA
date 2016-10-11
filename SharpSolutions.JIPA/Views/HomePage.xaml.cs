@@ -41,16 +41,6 @@ namespace SharpSolutions.JIPA.Views
 
 
             this.DataContext = _ViewModel;
-
-            series.ValueBinding = new GenericDataPointBinding<PowerConsumptionModel, double>()
-            {
-                ValueSelector = item => item.Value,
-            };
-
-            series.CategoryBinding = new GenericDataPointBinding<PowerConsumptionModel, string>()
-            {
-                ValueSelector = item => item.Name,
-            };
         }
 
 

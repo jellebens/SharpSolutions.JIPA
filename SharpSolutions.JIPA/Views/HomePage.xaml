@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:SharpSolutions.JIPA.ViewModels"
-    xmlns:Chart="using:Telerik.UI.Xaml.Controls.Chart"
+    xmlns:m="using:SharpSolutions.JIPA.Models"
     x:Class="SharpSolutions.JIPA.Views.HomePage"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:HomeViewModel}"
@@ -50,20 +50,20 @@
             </StackPanel>
         </Grid>
 
-        <Chart:RadCartesianChart Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="Auto" Width="Auto">
-            <Chart:RadCartesianChart.HorizontalAxis>
-                <Chart:CategoricalAxis Width="Auto" />
-            </Chart:RadCartesianChart.HorizontalAxis>
+        <ListView ItemsSource="{Binding PowerConsumption}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="m:PowerConsumptionModel">
+                    <StackPanel Orientation="Horizontal" Margin="6">
+                        <SymbolIcon Symbol="Send" Margin="0,0,12,0"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name }" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Value }"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
 
-            <Chart:RadCartesianChart.VerticalAxis>
-                <Chart:LinearAxis />
-            </Chart:RadCartesianChart.VerticalAxis>
-
-            <Chart:BarSeries ShowLabels="false" x:Name="series"
-                        
-                        ItemsSource="{Binding PowerConsumption}">
-            </Chart:BarSeries>
-        </Chart:RadCartesianChart>
+        </ListView>
 
     </Grid>
 </Page>
