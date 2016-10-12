@@ -28,6 +28,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Snippets", "Code Snipp
 		Lib\Code Snippets\install.ps1 = Lib\Code Snippets\install.ps1
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQTTFx", "MQTTFx", "{A438CDEE-CD51-450F-960F-5A5D499ABC8F}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\mqttFX\02__RandomTemperature.js = Lib\mqttFX\02__RandomTemperature.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,8 +1,8 @@
 [
   {
     "Key": "jipa_temperature",
-    "Name": "Living Room Temperature",
-    "Type": "Temperature",
+    "Name": "Living room",
+    "Type": "temperature",
     "Description": "Indicates temperature in degrees Celsius",
     "Unit": "°C"
   },
