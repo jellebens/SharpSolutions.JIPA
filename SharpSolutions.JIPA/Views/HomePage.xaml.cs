@@ -47,7 +47,7 @@ namespace SharpSolutions.JIPA.Views
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 TotalPower.Model.Label = $"Total Power";
-                TotalPower.Model.Value = e.Value;
+                TotalPower.Model.Power = e.Value;
                 TotalPower.Model.Unit = e.Unit;
             });
         }

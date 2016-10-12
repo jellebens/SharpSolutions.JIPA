@@ -21,58 +21,33 @@ namespace SharpSolutions.JIPA.Controls
 {
     public sealed partial class PowerConsumtionTile : UserControl
     {
-        //public static DependencyProperty MinProperty = 
-        //    DependencyProperty.Register("Min", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(false));
-        
-        
-
-        //public static DependencyProperty MaxProperty = DependencyProperty.Register("Max", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(false));
+        // Using a DependencyProperty as the backing store for Min.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MinProperty =
+            DependencyProperty.Register("Min", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(0));
+        // Using a DependencyProperty as the backing store for Max.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxProperty =
+            DependencyProperty.Register("Max", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(0));
 
         public PowerConsumtionTile()
         {
             this.InitializeComponent();
             this.Model = new PowerConsumptionModel();
+            this.DataContext = this.Model;
         }
 
         public PowerConsumptionModel Model { get; private set; }
-
-
-        //public int Min
-        //{
-        //    get { return (int)base.GetValue(MinProperty); }
-        //    set { base.SetValue(MinProperty, value); }
-        //}
-
-        //public int Max
-        //{
-        //    get { return (int)base.GetValue(MaxProperty); }
-        //    set { base.SetValue(MaxProperty, value); }
-        //}
-
-
-
+        
         public int Min
         {
             get { return (int)GetValue(MinProperty); }
             set { SetValue(MinProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for Min.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MinProperty =
-            DependencyProperty.Register("Min", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(0));
-
-
-
+        
         public int Max
         {
             get { return (int)GetValue(MaxProperty); }
             set { SetValue(MaxProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for Max.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MaxProperty =
-            DependencyProperty.Register("Max", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(0));
-
 
 
     }

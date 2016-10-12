@@ -34,7 +34,7 @@ namespace SharpSolutions.JIPA.ViewModels
         private readonly LoggingChannel _LoggingChannel;
         private readonly Dictionary<string, float> _SensorValues;
         private SemaphoreSlim _Semaphore;
-        private int _ReconnctCount = 0;
+        private int _ReconnectCount = 0;
 
         public HomeViewModel(): this(new LoggingChannel("HomeViewModelLogger",null))
         {
@@ -48,8 +48,7 @@ namespace SharpSolutions.JIPA.ViewModels
             _Client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
             _Client.MqttMsgPublishReceived += OnClientMessageReceived;
             _Client.Subscribe(new[] { Topics.AllSensors }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            _Client.ConnectionClosed += OnClientConnectionClosed;
-
+            
             _LoggingChannel = logger;
 
             _SensorValues = new Dictionary<string, float>();
@@ -71,13 +70,13 @@ namespace SharpSolutions.JIPA.ViewModels
             {
                 try
                 {
-                    if (_ReconnctCount > 0) {
+                    if (_ReconnectCount > 0) {
                         Task.Delay(1000);
                     }
 
                     if (!_Client.IsConnected)
                     {
-                        _ReconnctCount++;
+                        _ReconnectCount++;
                         _Client.Reconnect();
                         
                     }
@@ -88,7 +87,7 @@ namespace SharpSolutions.JIPA.ViewModels
                 }
                 finally {
                     _Semaphore.Release();
-                    _ReconnctCount--;
+                    _ReconnectCount--;
                 }
             });
             

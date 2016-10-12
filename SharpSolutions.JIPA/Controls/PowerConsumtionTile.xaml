@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<UserControl x:Name="userControl"
     x:Class="SharpSolutions.JIPA.Controls.PowerConsumtionTile"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,15 +9,17 @@
     xmlns:m="using:SharpSolutions.JIPA.Models"
     mc:Ignorable="d"
     d:DataContext="{d:DesignData Source=/SampleData/PowerConsumption.json, Type=m:PowerConsumptionModel}"
-    Height="80"
-    Width="80" >
+    Height="160"
+    Width="160" >
+    <UserControl.DataContext>
+        <m:PowerConsumptionModel />
+    </UserControl.DataContext>
 
-    
-        <Border Margin="5">
-            <t:Gauge
-                    Minimum="{Binding Min}"
-                    Maximum="{Binding Max}"
-                    Value="{Binding Value}"
+    <Border Margin="5">
+        <t:Gauge
+                    Minimum="{Binding Min, ElementName=userControl}"
+                    Maximum="{Binding Max, ElementName=userControl}"
+                    Value="{Binding Power}"
                     NeedleBrush="Transparent"
                     ScaleTickBrush="Transparent"
                     ScaleBrush="DarkSlateGray"
@@ -27,6 +29,6 @@
                     ValueStringFormat="N1"
                     Unit="{Binding Label}"
                     UnitBrush="DarkGray" />
-        </Border>
-    
+    </Border>
+
 </UserControl>

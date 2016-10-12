@@ -13,12 +13,12 @@ namespace SharpSolutions.JIPA.Models
          
         }
 
-        private float _Value;
+        private float _Power;
 
-        public float Value
+        public float Power
         {
-            get { return _Value; }
-            set { SetField(ref _Value, value); }
+            get { return _Power; }
+            set { SetField(ref _Power, value); }
         }
         
         private string _Unit;

@@ -10,8 +10,6 @@ namespace SharpSolutions.JIPA.ViewModels
 {
     public class TimeViewModel
     {
-        private DateTimeOffsetProvider _TimeProvider;
-
         public TimeViewModel()
         {
             this.Model = new TimeModel();
