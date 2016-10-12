@@ -14,10 +14,13 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Exceptions;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using Windows.ApplicationModel;
+using Windows.Foundation.Diagnostics;
 using Windows.System.Threading;
 using Windows.UI.Core;
 
@@ -26,49 +29,75 @@ namespace SharpSolutions.JIPA.ViewModels
     public class HomeViewModel : ViewModelBase
     {
         
-        private MqttClient _Client;
-        private SensorService _SensorService;
-        
+        private readonly MqttClient _Client;
+        private readonly SensorService _SensorService;
+        private readonly LoggingChannel _LoggingChannel;
+        private readonly Dictionary<string, float> _SensorValues;
+        private SemaphoreSlim _Semaphore;
+        private int _ReconnctCount = 0;
 
-        public HomeViewModel()
+        public HomeViewModel(): this(new LoggingChannel("HomeViewModelLogger",null))
         {
-            
-            Time = new TimeModel();
-            Temperature = new TemperatureModel();
-            Message = new MessageModel();
-            PowerConsumption = new ObservableCollection<PowerConsumptionModel>();
 
+        }
+
+        public HomeViewModel(LoggingChannel logger)
+        {
             _SensorService = SensorService.Create();
 
             _Client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
             _Client.MqttMsgPublishReceived += OnClientMessageReceived;
             _Client.Subscribe(new[] { Topics.AllSensors }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            _Client.ConnectionClosed += OnClientConnectionClosed;
 
-            
+            _LoggingChannel = logger;
+
+            _SensorValues = new Dictionary<string, float>();
+            _Semaphore = new SemaphoreSlim(1);
+
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(1));
+        }
+
+        private void OnClientConnectionClosed(object sender, EventArgs e)
+        {
+            _LoggingChannel.LogMessage("Connection Closed Event Detected", LoggingLevel.Information);
         }
 
         private async void OnKeepAliveTimerElapsed(ThreadPoolTimer timer)
         {
-            if (Dispatcher == null) return; //guard clause
+            if (!_Semaphore.Wait(0)) return;
 
-            if (!_Client.IsConnected)
+            await Task.Run(() =>
             {
-                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => MessageServiceOffline());
+                try
+                {
+                    if (_ReconnctCount > 0) {
+                        Task.Delay(1000);
+                    }
 
-                _Client.Reconnect();
-            }
-            else {
-                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => this.Message.UpdateLabel());
-            }
+                    if (!_Client.IsConnected)
+                    {
+                        _ReconnctCount++;
+                        _Client.Reconnect();
+                        
+                    }
+                }
+                catch (MqttCommunicationException exc)
+                {
+                    _LoggingChannel.LogMessage($"Mqtt Exception {exc.Message}", LoggingLevel.Error);
+                }
+                finally {
+                    _Semaphore.Release();
+                    _ReconnctCount--;
+                }
+            });
+            
         }
 
 
 
-        private async void OnClientMessageReceived(object sender, MqttMsgPublishEventArgs e)
+        private void OnClientMessageReceived(object sender, MqttMsgPublishEventArgs e)
         {
-            if (this.Dispatcher == null) return;
-
             string msg = Encoding.UTF8.GetString(e.Message);
 
             MeteringMeasuredEvent evnt = JsonConvert.DeserializeObject<MeteringMeasuredEvent>(msg);
@@ -79,7 +108,7 @@ namespace SharpSolutions.JIPA.ViewModels
 
             //TODO Refactor this
             if (string.Equals(s.Type, "Temperature", StringComparison.CurrentCultureIgnoreCase)) {
-                TemperatureChanged?.Invoke(this, new TemperatureUpdatedEventArgs
+                TemperatureChanged?.Invoke(this, new TemperatureChangedEventArgs
                 {
                     Key = evnt.Key,
                     Label = s.Name,
@@ -89,45 +118,22 @@ namespace SharpSolutions.JIPA.ViewModels
             }
 
             if (string.Equals(s.Type, "Power Sensor", StringComparison.CurrentCultureIgnoreCase)) {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-                    
-                    UpdatePower(s.Name, float.Parse(evnt.Value));
+
+                if (!_SensorValues.ContainsKey(evnt.Key)) {
+                    _SensorValues.Add(evnt.Key, float.Parse(evnt.Value));
+                }
+                else {
+                    _SensorValues[evnt.Key] = float.Parse(evnt.Value);
+                }
+
+                TotalPowerConsumptionChanged?.Invoke(this, new TotalPowerConsumtionChangedEventArgs
+                {
+                    Unit = s.Unit,
+                    Value = _SensorValues.Sum(v => v.Value)
                 });
-            }
-            
-            
+            }    
         }
-
-        public event EventHandler<TemperatureUpdatedEventArgs> TemperatureChanged;
-
-        private void UpdatePower(string name ,float value)
-        {
-
-
-            if (!PowerConsumption.Any(i => i.Name == name))
-            {
-                PowerConsumptionModel m = new PowerConsumptionModel();
-                m.Value = value;
-                m.Name = name;
-                PowerConsumption.Add(m);
-            }
-            else {
-                PowerConsumptionModel model =  PowerConsumption.Single(i => i.Name == name);
-                model.Value = value;
-            }
-        }
-
-        public TimeModel Time { get; private set; }
-        public TemperatureModel Temperature { get; private set; }
-        public MessageModel Message { get; private set; }
-
-        public ObservableCollection<PowerConsumptionModel> PowerConsumption { get; set; }
-
-        public CoreDispatcher Dispatcher { get; internal set; }
-
-        public void MessageServiceOffline() {
-            this.Message.Label = '\xE871';
-        }
-
+        public event EventHandler<TemperatureChangedEventArgs> TemperatureChanged;
+        public event EventHandler<TotalPowerConsumtionChangedEventArgs> TotalPowerConsumptionChanged;
     }
 }

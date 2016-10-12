@@ -94,6 +94,7 @@
       <Link>Data\sensor-list.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="SampleData\PowerConsumption.json" />
     <None Include="SampleData\Temperature.json" />
     <None Include="SampleData\Time.json" />
     <None Include="project.json" />
@@ -107,7 +108,11 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\Data\Sensor.cs" />
-    <Compile Include="Contracts\TemperatureUpdatedEventArgs.cs" />
+    <Compile Include="Contracts\TotalPowerConsumtionChangedEventArgs.cs" />
+    <Compile Include="Contracts\TemperatureChangedEventArgs.cs" />
+    <Compile Include="Controls\PowerConsumtionTile.xaml.cs">
+      <DependentUpon>PowerConsumtionTile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TemperatureTile.xaml.cs">
       <DependentUpon>TemperatureTile.xaml</DependentUpon>
     </Compile>
@@ -158,6 +163,10 @@
     <Page Include="AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\PowerConsumtionTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TemperatureTile.xaml">
       <SubType>Designer</SubType>

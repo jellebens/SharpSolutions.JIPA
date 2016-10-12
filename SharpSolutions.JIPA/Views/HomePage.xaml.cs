@@ -35,15 +35,24 @@ namespace SharpSolutions.JIPA.Views
             this.InitializeComponent();
 
             _ViewModel = App.Container.Resolve<HomeViewModel>();
-            _ViewModel.Dispatcher = this.Dispatcher;
-
-
+            
             this.DataContext = _ViewModel;
 
             _ViewModel.TemperatureChanged += OnTemperatureChanged;
+            _ViewModel.TotalPowerConsumptionChanged += OnPowerConsumptionChanged;
         }
 
-        private async void OnTemperatureChanged(object sender, Contracts.TemperatureUpdatedEventArgs e)
+        private async void OnPowerConsumptionChanged(object sender, Contracts.TotalPowerConsumtionChangedEventArgs e)
+        {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                TotalPower.Model.Label = $"Total Power";
+                TotalPower.Model.Value = e.Value;
+                TotalPower.Model.Unit = e.Unit;
+            });
+        }
+
+        private async void OnTemperatureChanged(object sender, Contracts.TemperatureChangedEventArgs e)
         {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,() =>
              {

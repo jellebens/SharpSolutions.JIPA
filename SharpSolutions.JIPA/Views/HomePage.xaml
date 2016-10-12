@@ -62,6 +62,9 @@
             Grid.ColumnSpan="2" 
             Grid.Row="4" 
             Grid.RowSpan="2"  />
+        <c:PowerConsumtionTile x:Name="TotalPower" Min="0" Max="5000" />
+
+
 
     </Grid>
 </Page>
