@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpSolutions.JIPA.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,10 @@ namespace SharpSolutions.JIPA.Controls
         public TemperatureTile()
         {
             this.InitializeComponent();
+            this.Model = new TemperatureModel();
+            this.DataContext = Model;
         }
+
+        public TemperatureModel Model { get; set; }
     }
 }

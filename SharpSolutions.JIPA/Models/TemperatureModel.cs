@@ -10,7 +10,8 @@ namespace SharpSolutions.JIPA.Models
     {
         public TemperatureModel()
         {
-            
+            Max = 20;
+            Min = 40;
         }
         private string _Temperature;
 
@@ -48,5 +49,22 @@ namespace SharpSolutions.JIPA.Models
                 SetField(ref _Label, value);
             }
         }
+
+        private int _Max;
+
+        public int Max
+        {
+            get { return _Max; }
+            set { SetField(ref _Max, value); }
+        }
+
+        private int _Min;
+
+        public int Min
+        {
+            get { return _Min; }
+            set { SetField(ref _Min, value); }
+        }
+
     }
 }

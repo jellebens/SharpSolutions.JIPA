@@ -94,6 +94,7 @@
       <Link>Data\sensor-list.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="SampleData\Temperature.json" />
     <None Include="SampleData\Time.json" />
     <None Include="project.json" />
   </ItemGroup>

@@ -6,15 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:t="using:WinRTXamlToolkit.Controls"
+    xmlns:m="using:SharpSolutions.JIPA.Models"
+    d:DataContext="{d:DesignData Source=/SampleData/Temperature.json, Type=m:TemperatureModel}"
     mc:Ignorable="d"
     Height="160"
     Width="160">
 
     <Border Margin="5">
         <t:Gauge
-                    Minimum="10"
-                    Maximum="45"
-                    Value="27.4"
+                    Minimum="{Binding Min}"
+                    Maximum="{Binding Max}"
+                    Value="{Binding Temperature}"
                     NeedleBrush="Transparent"
                     ScaleTickBrush="Transparent"
                     ScaleBrush="DarkSlateGray"
@@ -22,7 +24,7 @@
                     TrailBrush="DarkSeaGreen"
                     ValueBrush="DarkSeaGreen"
                     ValueStringFormat="N1"
-                    Unit="° Celsius"
+                    Unit="{Binding Label}"
                     UnitBrush="DarkGray" />
     </Border>
 </UserControl>

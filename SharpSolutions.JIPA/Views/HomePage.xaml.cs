@@ -34,12 +34,14 @@ namespace SharpSolutions.JIPA.Views
         {
             this.InitializeComponent();
 
-            //_ViewModel = App.Container.Resolve<HomeViewModel>();
-            //ThreadPoolTimer.CreatePeriodicTimer(OnTimeTimerElapsed, TimeSpan.FromMilliseconds(400));
-            //_ViewModel.Dispatcher = this.Dispatcher;
+            _ViewModel = App.Container.Resolve<HomeViewModel>();
+            ThreadPoolTimer.CreatePeriodicTimer(OnTimeTimerElapsed, TimeSpan.FromMilliseconds(400));
+            _ViewModel.Dispatcher = this.Dispatcher;
 
 
-            //this.DataContext = _ViewModel;
+            this.DataContext = _ViewModel;
+
+
         }
 
 
