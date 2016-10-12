@@ -35,19 +35,22 @@ namespace SharpSolutions.JIPA.Views
             this.InitializeComponent();
 
             _ViewModel = App.Container.Resolve<HomeViewModel>();
-            ThreadPoolTimer.CreatePeriodicTimer(OnTimeTimerElapsed, TimeSpan.FromMilliseconds(400));
             _ViewModel.Dispatcher = this.Dispatcher;
 
 
             this.DataContext = _ViewModel;
 
-
+            _ViewModel.TemperatureChanged += OnTemperatureChanged;
         }
 
-
-        private async void OnTimeTimerElapsed(ThreadPoolTimer timer)
+        private async void OnTemperatureChanged(object sender, Contracts.TemperatureUpdatedEventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => _ViewModel.UpdateTime());
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,() =>
+             {
+                 Temperature.Model.Label = e.Label;
+                 Temperature.Model.Temperature = e.Value;
+                 Temperature.Model.Unit = e.Unit;
+             });
         }
     }
 }

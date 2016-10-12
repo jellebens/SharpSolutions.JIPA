@@ -107,6 +107,7 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\Data\Sensor.cs" />
+    <Compile Include="Contracts\TemperatureUpdatedEventArgs.cs" />
     <Compile Include="Controls\TemperatureTile.xaml.cs">
       <DependentUpon>TemperatureTile.xaml</DependentUpon>
     </Compile>

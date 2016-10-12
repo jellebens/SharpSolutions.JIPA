@@ -10,12 +10,12 @@ namespace SharpSolutions.JIPA.Models
     {
         public TemperatureModel()
         {
-            Max = 20;
-            Min = 40;
+            Min = 20;
+            Max = 40;
         }
-        private string _Temperature;
+        private float _Temperature;
 
-        public string Temperature
+        public float Temperature
         {
             get
             {

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ppatierno.AzureSBLite;
 using ppatierno.AzureSBLite.Messaging;
+using SharpSolutions.JIPA.Contracts;
 using SharpSolutions.JIPA.Contracts.Data;
 using SharpSolutions.JIPA.Core.Mqtt;
 using SharpSolutions.JIPA.Events.Metering;
@@ -62,6 +63,8 @@ namespace SharpSolutions.JIPA.ViewModels
             }
         }
 
+
+
         private async void OnClientMessageReceived(object sender, MqttMsgPublishEventArgs e)
         {
             if (this.Dispatcher == null) return;
@@ -76,9 +79,12 @@ namespace SharpSolutions.JIPA.ViewModels
 
             //TODO Refactor this
             if (string.Equals(s.Type, "Temperature", StringComparison.CurrentCultureIgnoreCase)) {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-
-                    UpdateTemperature(s.Name, float.Parse(evnt.Value));
+                TemperatureChanged?.Invoke(this, new TemperatureUpdatedEventArgs
+                {
+                    Key = evnt.Key,
+                    Label = s.Name,
+                    Unit = s.Unit,
+                    Value = float.Parse(evnt.Value)
                 });
             }
 
@@ -91,6 +97,8 @@ namespace SharpSolutions.JIPA.ViewModels
             
             
         }
+
+        public event EventHandler<TemperatureUpdatedEventArgs> TemperatureChanged;
 
         private void UpdatePower(string name ,float value)
         {
@@ -119,17 +127,6 @@ namespace SharpSolutions.JIPA.ViewModels
 
         public void MessageServiceOffline() {
             this.Message.Label = '\xE871';
-        }
-
-        public void UpdateTemperature(string label, float temp)
-        {
-            Temperature.Label = label;
-            Temperature.Temperature = string.Format("{0:#0.0} °C", temp);
-        }
-
-        public void UpdateTime()
-        {
-            
         }
 
     }
