@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Property that triggers PropertyChanged</Title>
+			<Shortcut>iprop</Shortcut>
+			<Description>Code snippet for a property that triggers INotifyPropertyChanged.PropertyChanged</Description>
+			<Author>Jelle Bens</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>access</ID>
+					<ToolTip>Access modifier</ToolTip>
+					<Default>public</Default>
+				</Literal>
+				<Literal>
+					<ID>type</ID>
+					<ToolTip>Type to return from property</ToolTip>
+					<Default>string</Default>
+				</Literal>
+				<Literal>
+					<ID>name</ID>
+					<ToolTip>Name of the property</ToolTip>
+					<Default>MyProperty</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+        <![CDATA[private $type$ _$name$;
+
+	public $type$ $name$
+	{
+		get { return _$name$;}
+		set { SetField(ref _$name$, value);}
+	}
+	$end$]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

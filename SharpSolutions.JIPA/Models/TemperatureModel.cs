@@ -26,6 +26,15 @@ namespace SharpSolutions.JIPA.Models
             }
         }
 
+        private string _Unit;
+
+        public string Unit
+        {
+            get { return _Unit; }
+            set { SetField(ref _Unit, value); }
+        }
+
+
         private string _Label;
 
         public string Label

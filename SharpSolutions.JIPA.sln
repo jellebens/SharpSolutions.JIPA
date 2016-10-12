@@ -22,6 +22,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{FC78ED81-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{88A09F0E-D388-40B1-B897-F7AF896AF1BD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Snippets", "Code Snippets", "{9A833598-F2F4-4EB9-AEF7-FB3B40804383}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Code Snippets\inotify-property.snippet = Lib\Code Snippets\inotify-property.snippet
+		Lib\Code Snippets\install.ps1 = Lib\Code Snippets\install.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

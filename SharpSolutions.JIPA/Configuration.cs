@@ -24,6 +24,8 @@ namespace SharpSolutions.JIPA
         public string Room { get; set; }
         public string Site { get; set; }
         public string ClientId { get; set; }
+        public string LocalBus { get; set; }
+
         public static Configuration Load()
         {
 
@@ -40,6 +42,6 @@ namespace SharpSolutions.JIPA
             }
         }
 
-        public string LocalBus { get; set; }
+        
     }
 }
