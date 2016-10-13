@@ -35,7 +35,7 @@ namespace SharpSolutions.JIPA.ViewModels
         private readonly Dictionary<string, float> _SensorValues;
         private SemaphoreSlim _Semaphore;
         private int _ReconnectCount = 0;
-
+        
         public HomeViewModel(): this(new LoggingChannel("HomeViewModelLogger",null))
         {
 
@@ -130,9 +130,17 @@ namespace SharpSolutions.JIPA.ViewModels
                     Unit = s.Unit,
                     Value = _SensorValues.Sum(v => v.Value)
                 });
-            }    
+            }
+
+            if (string.Equals(s.Type, "motion", StringComparison.CurrentCultureIgnoreCase)) {
+                MotionDetected?.Invoke(this, new MotionDetectedEventArgs {
+                    Key = evnt.Key,
+                    Label = s.Name
+                });
+            }
         }
         public event EventHandler<TemperatureChangedEventArgs> TemperatureChanged;
         public event EventHandler<TotalPowerConsumtionChangedEventArgs> TotalPowerConsumptionChanged;
+        public event EventHandler<MotionDetectedEventArgs> MotionDetected;
     }
 }

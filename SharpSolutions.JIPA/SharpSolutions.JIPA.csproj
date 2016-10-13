@@ -108,8 +108,12 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\Data\Sensor.cs" />
+    <Compile Include="Contracts\MotionDetectedEventArgs.cs" />
     <Compile Include="Contracts\TotalPowerConsumtionChangedEventArgs.cs" />
     <Compile Include="Contracts\TemperatureChangedEventArgs.cs" />
+    <Compile Include="Controls\MotionTile.xaml.cs">
+      <DependentUpon>MotionTile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PowerConsumtionTile.xaml.cs">
       <DependentUpon>PowerConsumtionTile.xaml</DependentUpon>
     </Compile>
@@ -121,6 +125,7 @@
     </Compile>
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\MotionModel.cs" />
     <Compile Include="Models\PowerConsumptionModel.cs" />
     <Compile Include="Models\TemperatureModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
@@ -161,6 +166,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AppShell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\MotionTile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

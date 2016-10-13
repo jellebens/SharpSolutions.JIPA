@@ -40,6 +40,15 @@ namespace SharpSolutions.JIPA.Views
 
             _ViewModel.TemperatureChanged += OnTemperatureChanged;
             _ViewModel.TotalPowerConsumptionChanged += OnPowerConsumptionChanged;
+            _ViewModel.MotionDetected += OnMotionDetected;
+        }
+
+        private async void OnMotionDetected(object sender, Contracts.MotionDetectedEventArgs e)
+        {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Motion.Model.Value++;
+            });
         }
 
         private async void OnPowerConsumptionChanged(object sender, Contracts.TotalPowerConsumtionChangedEventArgs e)
