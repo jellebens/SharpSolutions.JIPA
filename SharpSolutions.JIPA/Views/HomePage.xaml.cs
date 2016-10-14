@@ -67,9 +67,9 @@ namespace SharpSolutions.JIPA.Views
         {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,() =>
              {
-                 //Temperature.Model.Label = $"{e.Label} ({e.Unit})";
-                 //Temperature.Model.Temperature = e.Value;
-                 //Temperature.Model.Unit = e.Unit;
+                 Temperature.Model.Label = $"{e.Label} ({e.Unit})";
+                 Temperature.Model.Temperature = e.Value;
+                 Temperature.Model.Unit = e.Unit;
              });
         }
     }
