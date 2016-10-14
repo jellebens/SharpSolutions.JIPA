@@ -35,13 +35,14 @@ namespace SharpSolutions.JIPA.Views
             this.InitializeComponent();
 
           _ViewModel = App.Container.Resolve<HomeViewModel>();
-
-            _ViewModel.Init();
+            
            this.DataContext = _ViewModel;
 
             _ViewModel.TemperatureChanged += OnTemperatureChanged;
             _ViewModel.TotalPowerConsumptionChanged += OnPowerConsumptionChanged;
             _ViewModel.MotionDetected += OnMotionDetected;
+
+            _ViewModel.Init();
         }
 
         private async void OnMotionDetected(object sender, Contracts.MotionDetectedEventArgs e)
@@ -66,9 +67,9 @@ namespace SharpSolutions.JIPA.Views
         {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,() =>
              {
-                 Temperature.Model.Label = $"{e.Label} ({e.Unit})";
-                 Temperature.Model.Temperature = e.Value;
-                 Temperature.Model.Unit = e.Unit;
+                 //Temperature.Model.Label = $"{e.Label} ({e.Unit})";
+                 //Temperature.Model.Temperature = e.Value;
+                 //Temperature.Model.Unit = e.Unit;
              });
         }
     }

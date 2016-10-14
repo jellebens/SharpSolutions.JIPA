@@ -14,8 +14,8 @@
 
     <Border Margin="5">
         <t:Gauge
-                    Minimum="{Binding Min}"
-                    Maximum="{Binding Max}"
+                    Minimum="{Binding Min,ElementName=userControl}"
+                    Maximum="{Binding Max,ElementName=userControl}"
                     Value="{Binding Temperature}"
                     NeedleBrush="Transparent"
                     ScaleTickBrush="Transparent"

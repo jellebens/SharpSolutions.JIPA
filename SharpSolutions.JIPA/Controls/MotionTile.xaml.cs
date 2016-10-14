@@ -24,10 +24,10 @@ namespace SharpSolutions.JIPA.Controls
     {
         // Using a DependencyProperty as the backing store for Min.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MinProperty =
-            DependencyProperty.Register("Min", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(0));
+            DependencyProperty.Register("Min", typeof(int), typeof(MotionTile), new PropertyMetadata(0));
         // Using a DependencyProperty as the backing store for Max.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaxProperty =
-            DependencyProperty.Register("Max", typeof(int), typeof(PowerConsumtionTile), new PropertyMetadata(0));
+            DependencyProperty.Register("Max", typeof(int), typeof(MotionTile), new PropertyMetadata(0));
 
 
 
@@ -37,7 +37,7 @@ namespace SharpSolutions.JIPA.Controls
             this.Model = new MotionModel();
             this.DataContext = this.Model;
 
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnDecreaseTimerElapsedHandler, TimeSpan.FromMilliseconds(1000));
+            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnDecreaseTimerElapsedHandler, TimeSpan.FromSeconds(30));
         }
 
         private async void OnDecreaseTimerElapsedHandler(ThreadPoolTimer timer)
