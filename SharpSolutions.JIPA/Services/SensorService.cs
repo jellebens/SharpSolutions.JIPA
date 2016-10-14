@@ -17,7 +17,7 @@ namespace SharpSolutions.JIPA.Services
             SensorService svc = new SensorService();
             svc._Sensors = new Dictionary<string, Sensor>();
             
-            string all = File.ReadAllText("Data/sensor-list.json");
+            string all = File.ReadAllText("Data/sensors.json");
 
             Sensor[] sensors = JsonConvert.DeserializeObject<Sensor[]>(all);
 

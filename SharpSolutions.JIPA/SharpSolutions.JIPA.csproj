@@ -90,9 +90,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="..\sensor-list.json">
-      <Link>Data\sensor-list.json</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="..\sensors.json">
+      <Link>Data\sensors.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="SampleData\PowerConsumption.json" />
     <None Include="SampleData\Temperature.json" />
@@ -129,6 +129,7 @@
     <Compile Include="Models\PowerConsumptionModel.cs" />
     <Compile Include="Models\TemperatureModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
+    <Compile Include="Modules\LoggingModule.cs" />
     <Compile Include="Modules\ModuleBase.cs" />
     <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

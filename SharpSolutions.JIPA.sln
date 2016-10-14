@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSolutions.JIPA.EventSe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{FC78ED81-0DE9-4B2E-B4FC-4DC38947AAB5}"
 	ProjectSection(SolutionItems) = preProject
-		sensor-list.json = sensor-list.json
+		sensors.json = sensors.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{88A09F0E-D388-40B1-B897-F7AF896AF1BD}"

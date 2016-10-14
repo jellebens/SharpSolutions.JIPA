@@ -54,14 +54,9 @@ namespace SharpSolutions.JIPA.ViewModels
             _SensorValues = new Dictionary<string, float>();
             _Semaphore = new SemaphoreSlim(1);
 
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(1));
+            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(60));
         }
-
-        private void OnClientConnectionClosed(object sender, EventArgs e)
-        {
-            _LoggingChannel.LogMessage("Connection Closed Event Detected", LoggingLevel.Information);
-        }
-
+        
         private async void OnKeepAliveTimerElapsed(ThreadPoolTimer timer)
         {
             if (!_Semaphore.Wait(0)) return;
@@ -70,12 +65,9 @@ namespace SharpSolutions.JIPA.ViewModels
             {
                 try
                 {
-                    if (_ReconnectCount > 0) {
-                        Task.Delay(1000);
-                    }
-
                     if (!_Client.IsConnected)
                     {
+                        Debug.WriteLine("Reconnecting");
                         _ReconnectCount++;
                         _Client.Reconnect();
                         
@@ -87,7 +79,6 @@ namespace SharpSolutions.JIPA.ViewModels
                 }
                 finally {
                     _Semaphore.Release();
-                    _ReconnectCount--;
                 }
             });
             
