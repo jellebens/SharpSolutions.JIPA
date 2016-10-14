@@ -34,9 +34,10 @@ namespace SharpSolutions.JIPA.Views
         {
             this.InitializeComponent();
 
-            _ViewModel = App.Container.Resolve<HomeViewModel>();
-            
-            this.DataContext = _ViewModel;
+          _ViewModel = App.Container.Resolve<HomeViewModel>();
+
+            _ViewModel.Init();
+           this.DataContext = _ViewModel;
 
             _ViewModel.TemperatureChanged += OnTemperatureChanged;
             _ViewModel.TotalPowerConsumptionChanged += OnPowerConsumptionChanged;

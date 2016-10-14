@@ -11,7 +11,7 @@ namespace SharpSolutions.JIPA.Core.Mqtt
     public static class MqttClientFactory
     {
         public const string WillMessage = "offline (unexpected)";
-
+        public const int KeepAlive = 60;
         public static MqttClient CreateSubscriber(string brokerAddress, string clientId)
         {
             MqttClient client = new MqttClient(brokerAddress);
@@ -29,7 +29,7 @@ namespace SharpSolutions.JIPA.Core.Mqtt
         public static MqttClient ConnectAndSendBirthMessage(this MqttClient client, string clientId) {
             string willTopic = CreateWillTopic(clientId);
 
-            client.Connect(clientId, null, null, true, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, willTopic, WillMessage, false, 60);
+            client.Connect(clientId, null, null, true, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true, willTopic, WillMessage, false, KeepAlive);
 
             client.PublishOnlineMessage(clientId);
 

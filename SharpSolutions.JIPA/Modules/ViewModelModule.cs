@@ -14,7 +14,7 @@ namespace SharpSolutions.JIPA.Modules
         {
             Assembly asm = this.GetAssembly();
 
-            builder.RegisterAssemblyTypes(asm).Where(t => t.Name.EndsWith("ViewModel"));
+            builder.RegisterAssemblyTypes(asm).Where(t => t.Name.EndsWith("ViewModel")).AsSelf();
         }
     }
 }

@@ -29,49 +29,73 @@ namespace SharpSolutions.JIPA.ViewModels
     public class HomeViewModel : ViewModelBase
     {
         
-        private readonly MqttClient _Client;
+        private MqttClient _Client;
         private readonly SensorService _SensorService;
         private readonly LoggingChannel _LoggingChannel;
         private readonly Dictionary<string, float> _SensorValues;
+
+        public void Init()
+        {
+            Debug.WriteLine("HomeViewModel.Init");
+            //To avoid connecting twice
+            _Client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
+            _Client.MqttMsgPublishReceived += OnClientMessageReceived;
+            _Client.Subscribe(new[] { Topics.AllSensors }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(1));
+        }
+
         private SemaphoreSlim _Semaphore;
-        private int _ReconnectCount = 0;
+        private long _LastMessage = 0;
         
         public HomeViewModel(): this(new LoggingChannel("HomeViewModelLogger",null))
         {
-
+            
         }
 
         public HomeViewModel(LoggingChannel logger)
         {
+
+            Debug.WriteLine("HomeViewModel.Ctor");
             _SensorService = SensorService.Create();
 
-            _Client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
-            _Client.MqttMsgPublishReceived += OnClientMessageReceived;
-            _Client.Subscribe(new[] { Topics.AllSensors }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
             
+
+            _LastMessage = DateTimeOffset.UtcNow.Ticks;
+
             _LoggingChannel = logger;
 
             _SensorValues = new Dictionary<string, float>();
             _Semaphore = new SemaphoreSlim(1);
-
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(60));
+            _Semaphore.Release();
         }
         
         private async void OnKeepAliveTimerElapsed(ThreadPoolTimer timer)
         {
             if (!_Semaphore.Wait(0)) return;
 
+            TimeSpan difference =TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - _LastMessage);
+            if (difference.TotalSeconds <= MqttClientFactory.KeepAlive) {
+                Debug.WriteLine($"Last message received {difference.TotalSeconds}s ago");
+                return;
+            }
+
             await Task.Run(() =>
             {
                 try
                 {
-                    if (!_Client.IsConnected)
-                    {
-                        Debug.WriteLine("Reconnecting");
-                        _ReconnectCount++;
+                    int counter = 0;
+                    
+                    while (!_Client.IsConnected) {
+                        int delayInSeconds = (int)((1d / 2d) * (Math.Pow(2d, counter) - 1d));
+                        Task.Delay(delayInSeconds);
+                        counter++;
+                        Debug.WriteLine($"Reconnecting {counter}");
                         _Client.Reconnect();
                         
                     }
+
+                    
                 }
                 catch (MqttCommunicationException exc)
                 {
@@ -88,6 +112,7 @@ namespace SharpSolutions.JIPA.ViewModels
 
         private void OnClientMessageReceived(object sender, MqttMsgPublishEventArgs e)
         {
+            _LastMessage = DateTimeOffset.UtcNow.Ticks;
             string msg = Encoding.UTF8.GetString(e.Message);
 
             MeteringMeasuredEvent evnt = JsonConvert.DeserializeObject<MeteringMeasuredEvent>(msg);
