@@ -75,8 +75,8 @@ namespace SharpSolutions.JIPA.ViewModels
             if (!_Semaphore.Wait(0)) return;
 
             TimeSpan difference =TimeSpan.FromTicks(DateTimeOffset.UtcNow.Ticks - _LastMessage);
+            Debug.WriteLine($"Last message received {difference.TotalSeconds}s ago");
             if (difference.TotalSeconds <= MqttClientFactory.KeepAlive) {
-                Debug.WriteLine($"Last message received {difference.TotalSeconds}s ago");
                 return;
             }
 
@@ -90,7 +90,7 @@ namespace SharpSolutions.JIPA.ViewModels
                         int delayInSeconds = (int)((1d / 2d) * (Math.Pow(2d, counter) - 1d));
                         Task.Delay(delayInSeconds);
                         counter++;
-                        Debug.WriteLine($"Reconnecting {counter}");
+                        Debug.WriteLine($"Reconnecting try #{counter} delayed {delayInSeconds}");
                         _Client.Reconnect();
                         
                     }
