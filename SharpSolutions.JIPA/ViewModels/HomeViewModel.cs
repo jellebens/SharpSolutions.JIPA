@@ -33,6 +33,7 @@ namespace SharpSolutions.JIPA.ViewModels
         private readonly SensorService _SensorService;
         private readonly LoggingChannel _LoggingChannel;
         private readonly Dictionary<string, float> _SensorValues;
+        private int _Reconnecting = 0;
 
         public void Init()
         {
@@ -40,9 +41,47 @@ namespace SharpSolutions.JIPA.ViewModels
             //To avoid connecting twice
             _Client = MqttClientFactory.CreateSubscriber(Configuration.Current.LocalBus, Configuration.Current.ClientId);
             _Client.MqttMsgPublishReceived += OnClientMessageReceived;
+            _Client.ConnectionClosed += OnClientConnectionClosed;
             _Client.Subscribe(new[] { Topics.AllSensors }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(1));
+            //ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsed, TimeSpan.FromSeconds(1));
+        }
+
+        private void OnClientConnectionClosed(object sender, EventArgs e)
+        {
+            _LoggingChannel.LogMessage("Connection Closed", LoggingLevel.Warning);
+
+            if (_Reconnecting > 0) {
+                _LoggingChannel.LogMessage("Allready retrying connecting exiting", LoggingLevel.Information);
+                return;
+            }
+
+            _Reconnecting++;
+            _LoggingChannel.LogMessage("Reconnecting", LoggingLevel.Information);
+
+            try
+            {
+                int counter = 0;
+
+                while (!_Client.IsConnected)
+                {
+                    int delayInSeconds = (int)((1d / 2d) * (Math.Pow(2d, counter) - 1d));
+                    Task.Delay(delayInSeconds);
+                    counter++;
+                    _LoggingChannel.LogMessage($"Reconnecting try #{counter} delayed {delayInSeconds}", LoggingLevel.Information);
+                    _Client.Reconnect();
+
+                }
+
+
+            }
+            catch (MqttCommunicationException exc)
+            {
+                _LoggingChannel.LogMessage($"Mqtt Exception {exc.Message}", LoggingLevel.Error);
+            }
+            finally {
+                _Reconnecting--;
+            }
         }
 
         private SemaphoreSlim _Semaphore;
