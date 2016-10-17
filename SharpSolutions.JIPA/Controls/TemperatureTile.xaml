@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<UserControl x:Name="userControl"
     x:Class="SharpSolutions.JIPA.Controls.TemperatureTile"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,8 +14,8 @@
 
     <Border Margin="5">
         <t:Gauge
-                    Minimum="{Binding Min}"
-                    Maximum="{Binding Max}"
+                    Minimum="{Binding Min,ElementName=userControl}"
+                    Maximum="{Binding Max, ElementName=userControl}"
                     Value="{Binding Temperature}"
                     NeedleBrush="Transparent"
                     ScaleTickBrush="Transparent"

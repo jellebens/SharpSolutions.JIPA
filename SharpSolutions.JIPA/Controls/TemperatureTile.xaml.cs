@@ -20,6 +20,26 @@ namespace SharpSolutions.JIPA.Controls
 {
     public sealed partial class TemperatureTile : UserControl
     {
+        // Using a DependencyProperty as the backing store for Min.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MinProperty =
+            DependencyProperty.Register("Min", typeof(int), typeof(TemperatureTile), new PropertyMetadata(0));
+        // Using a DependencyProperty as the backing store for Max.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxProperty =
+            DependencyProperty.Register("Max", typeof(int), typeof(TemperatureTile), new PropertyMetadata(0));
+        
+        public int Min
+        {
+            get { return (int)GetValue(MinProperty); }
+            set { SetValue(MinProperty, value); }
+        }
+
+        public int Max
+        {
+            get { return (int)GetValue(MaxProperty); }
+            set { SetValue(MaxProperty, value); }
+        }
+
+
         public TemperatureTile()
         {
             this.InitializeComponent();

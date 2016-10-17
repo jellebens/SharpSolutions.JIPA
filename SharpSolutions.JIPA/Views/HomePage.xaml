@@ -57,6 +57,8 @@
         </Grid.ColumnDefinitions>
         <c:TimeTile Grid.Column="8" Grid.ColumnSpan="2"/>
         <c:TemperatureTile 
+            Min="20"
+            Max="40"
             x:Name="Temperature"
             Grid.Column="8" 
             Grid.ColumnSpan="2" 

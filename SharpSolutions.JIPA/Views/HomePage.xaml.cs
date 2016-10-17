@@ -35,13 +35,14 @@ namespace SharpSolutions.JIPA.Views
             this.InitializeComponent();
 
           _ViewModel = App.Container.Resolve<HomeViewModel>();
-
-            _ViewModel.Init();
+            
            this.DataContext = _ViewModel;
 
             _ViewModel.TemperatureChanged += OnTemperatureChanged;
             _ViewModel.TotalPowerConsumptionChanged += OnPowerConsumptionChanged;
             _ViewModel.MotionDetected += OnMotionDetected;
+
+            _ViewModel.Init();
         }
 
         private async void OnMotionDetected(object sender, Contracts.MotionDetectedEventArgs e)
