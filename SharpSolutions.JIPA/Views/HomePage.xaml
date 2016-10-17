@@ -57,16 +57,14 @@
         </Grid.ColumnDefinitions>
         <c:TimeTile Grid.Column="8" Grid.ColumnSpan="2"/>
         <c:TemperatureTile 
-            Min="20"
-            Max="40"
+            
             x:Name="Temperature"
             Grid.Column="8" 
             Grid.ColumnSpan="2" 
-            Grid.Row="4" 
-            Grid.RowSpan="2"  />
+            Grid.Row="5" />
         
-        <c:PowerConsumtionTile x:Name="TotalPower" Min="0" Max="3500" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" />
-        <c:MotionTile x:Name="Motion" Min="0" Max="300" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2"/>
+        <c:PowerConsumtionTile x:Name="TotalPower" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+        <c:MotionTile x:Name="Motion" Min="0" Max="500" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2"/>
 
 
     </Grid>

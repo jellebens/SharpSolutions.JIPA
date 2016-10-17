@@ -37,7 +37,7 @@ namespace SharpSolutions.JIPA.Controls
             this.Model = new MotionModel();
             this.DataContext = this.Model;
 
-            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnDecreaseTimerElapsedHandler, TimeSpan.FromSeconds(30));
+            ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(OnDecreaseTimerElapsedHandler, TimeSpan.FromSeconds(20));
         }
 
         private async void OnDecreaseTimerElapsedHandler(ThreadPoolTimer timer)

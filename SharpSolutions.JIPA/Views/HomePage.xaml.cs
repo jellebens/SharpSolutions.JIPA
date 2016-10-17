@@ -58,8 +58,7 @@ namespace SharpSolutions.JIPA.Views
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 TotalPower.Model.Label = $"Total Power";
-                TotalPower.Model.Power = e.Value;
-                TotalPower.Model.Unit = e.Unit;
+                TotalPower.Model.Power = $"{e.Value} {e.Unit}";
             });
         }
 
@@ -67,9 +66,8 @@ namespace SharpSolutions.JIPA.Views
         {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,() =>
              {
-                 Temperature.Model.Label = $"{e.Label} ({e.Unit})";
-                 Temperature.Model.Temperature = e.Value;
-                 Temperature.Model.Unit = e.Unit;
+                 Temperature.Model.Label = $"{e.Label}";
+                 Temperature.Model.Temperature = $"{e.Value} {e.Unit}";
              });
         }
     }

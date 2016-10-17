@@ -9,22 +9,21 @@
     xmlns:m="using:SharpSolutions.JIPA.Models"
     d:DataContext="{d:DesignData Source=/SampleData/Temperature.json, Type=m:TemperatureModel}"
     mc:Ignorable="d"
-    Height="160"
-    Width="160">
+    Height="80"
+    Width="160"
+    Foreground="DarkSeaGreen">
 
-    <Border Margin="5">
-        <t:Gauge
-                    Minimum="{Binding Min,ElementName=userControl}"
-                    Maximum="{Binding Max, ElementName=userControl}"
-                    Value="{Binding Temperature}"
-                    NeedleBrush="Transparent"
-                    ScaleTickBrush="Transparent"
-                    ScaleBrush="DarkSlateGray"
-                    TickBrush="Black"
-                    TrailBrush="DarkSeaGreen"
-                    ValueBrush="DarkSeaGreen"
-                    ValueStringFormat="N1"
-                    Unit="{Binding Label}"
-                    UnitBrush="DarkGray" />
-    </Border>
+    <UserControl.DataContext>
+        <m:TemperatureModel/>
+    </UserControl.DataContext>
+    
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="{Binding Temperature}" FontSize="45" TextAlignment="Right" FontWeight="Bold" />
+        <TextBlock Grid.Row="1" Text="{Binding Label}" FontSize="12" TextTrimming="CharacterEllipsis" TextAlignment="Center" />
+    </Grid>
+
 </UserControl>

@@ -12,9 +12,9 @@ namespace SharpSolutions.JIPA.Models
         {
             
         }
-        private float _Temperature;
+        private string _Temperature;
 
-        public float Temperature
+        public string Temperature
         {
             get
             {
@@ -25,16 +25,7 @@ namespace SharpSolutions.JIPA.Models
                 SetField(ref _Temperature, value);
             }
         }
-
-        private string _Unit;
-
-        public string Unit
-        {
-            get { return _Unit; }
-            set { SetField(ref _Unit, value); }
-        }
-
-
+        
         private string _Label;
 
         public string Label
@@ -47,22 +38,6 @@ namespace SharpSolutions.JIPA.Models
             {
                 SetField(ref _Label, value);
             }
-        }
-
-        private int _Max;
-
-        public int Max
-        {
-            get { return _Max; }
-            set { SetField(ref _Max, value); }
-        }
-
-        private int _Min;
-
-        public int Min
-        {
-            get { return _Min; }
-            set { SetField(ref _Min, value); }
         }
 
     }
