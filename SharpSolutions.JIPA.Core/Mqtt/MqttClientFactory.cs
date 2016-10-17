@@ -37,7 +37,6 @@ namespace SharpSolutions.JIPA.Core.Mqtt
         }
 
         public static MqttClient Reconnect(this MqttClient client) {
-
             client.ConnectAndSendBirthMessage(client.ClientId);
             
             return client;

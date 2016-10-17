@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Exceptions;
 using Windows.Foundation;
 using Windows.Foundation.Diagnostics;
 using Windows.System.Threading;
@@ -33,8 +34,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
         {
             _Sensor = new BMP280();
             _Semaphore = new SemaphoreSlim(1);
-            _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, $"TemperatureService_{Configuration.Default.ClientId}");
-
+            
             _LoggingChannel = loggingChannel;
         }
         
@@ -43,6 +43,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
             ///Crap construction for winrt WME1038
             return AsyncInfo.Run(async delegate (CancellationToken token)
             {
+                _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, $"TemperatureService_{Configuration.Default.ClientId}");
                 await _Sensor.Initialize();
                 
                 _Timer = ThreadPoolTimer.CreatePeriodicTimer(OnTimerElapsedHandler, TimeSpan.FromSeconds(5));
@@ -68,27 +69,28 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 string payload = JsonConvert.SerializeObject(evnt);
 
                 byte[] msg =Encoding.UTF8.GetBytes(payload);
-                
+
                 try
                 {
-                    if (!_Client.IsConnected) {
+                    if (!_Client.IsConnected)
+                    {
                         _LoggingChannel.LogMessage("Client is not connected. reconnecting", LoggingLevel.Information);
-                        try
-                        {
-                            _Client.Disconnect();
-                        }
-                        catch (Exception e) {
-                            _LoggingChannel.LogMessage($"Error disconnecting {e.Message}", LoggingLevel.Warning);
-                        }
+
                         _Client.Reconnect();
                     }
                     _Client.Publish(Topic, msg);
+                }
+                catch (MqttCommunicationException exc)
+                {
+                    string errMsg = "Failed to sent message: " + exc.Message;
+                    Debug.WriteLine(errMsg);
+                    _LoggingChannel.LogMessage(errMsg, LoggingLevel.Critical);
+                    _Client.Disconnect();
                 }
                 catch (Exception exc) {
                     string errMsg = "Failed to sent message: " + exc.Message;
                     Debug.WriteLine(errMsg);
                     _LoggingChannel.LogMessage(errMsg, LoggingLevel.Critical);
-                    
                 }
             }finally {
                 _Semaphore.Release();
