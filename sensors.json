@@ -74,21 +74,21 @@
     "Name": "Waterheater",
     "Type": "electric meter",
     "Description": "Indicates the instantaneous power consumption in Watts",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node4_sensor_power",
     "Name": "Waterheater",
     "Type": "power sensor",
     "Description": "Indicates the energy consumption (kWh)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node4_switch_binary",
     "Name": "Waterheater",
     "Type": "switch",
     "Description": "Indicates if the switch is on or off (1 or 0)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node7_meter_kwh",
@@ -102,21 +102,21 @@
     "Name": "Washing machine",
     "Type": "electric meter",
     "Description": "Indicates the instantaneous power consumption in Watts",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node7_sensor_power",
     "Name": "Washing machine",
     "Type": "power sensor",
     "Description": "Indicates the energy consumption (kWh)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node7_switch_binary",
     "Name": "Washing machine",
     "Type": "switch",
     "Description": "Indicates if the switch is on or off (1 or 0)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node8_meter_kwh",
@@ -130,21 +130,21 @@
     "Name": "Dryer",
     "Type": "electric meter",
     "Description": "Indicates the instantaneous power consumption in Watts",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node8_sensor_power",
     "Name": "Dryer",
     "Type": "power sensor",
     "Description": "Indicates the energy consumption (kWh)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node8_switch_binary",
     "Name": "Dryer",
     "Type": "switch",
     "Description": "Indicates if the switch is on or off (1 or 0)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node9_meter_kwh",
@@ -158,21 +158,21 @@
     "Name": "Computer and TV",
     "Type": "electric meter",
     "Description": "Indicates the instantaneous power consumption in Watts",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node9_sensor_power",
     "Name": "Computer and TV",
     "Type": "power sensor",
     "Description": "Indicates the energy consumption (kWh)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "zwave_device_1a07c095_node9_switch_binary",
     "Name": "Computer and TV",
     "Type": "switch",
     "Description": "Indicates if the switch is on or off (1 or 0)",
-    "Unit": "watts"
+    "Unit": "W"
   },
   {
     "Key": "jipa_motion",

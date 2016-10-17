@@ -73,15 +73,22 @@ namespace SharpSolutions.JIPA.SensorService.Services
                 {
                     if (!_Client.IsConnected) {
                         _LoggingChannel.LogMessage("Client is not connected. reconnecting", LoggingLevel.Information);
-                        
+                        try
+                        {
+                            _Client.Disconnect();
+                        }
+                        catch (Exception e) {
+                            _LoggingChannel.LogMessage($"Error disconnecting {e.Message}", LoggingLevel.Warning);
+                        }
                         _Client.Reconnect();
                     }
-                    ushort messageId = _Client.Publish(Topic, msg);
+                    _Client.Publish(Topic, msg);
                 }
                 catch (Exception exc) {
                     string errMsg = "Failed to sent message: " + exc.Message;
                     Debug.WriteLine(errMsg);
                     _LoggingChannel.LogMessage(errMsg, LoggingLevel.Critical);
+                    
                 }
             }finally {
                 _Semaphore.Release();
