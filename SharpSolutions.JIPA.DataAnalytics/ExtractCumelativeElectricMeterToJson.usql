@@ -1,0 +1,11 @@
+﻿EXTRACT Key string,
+        Value float,
+        [Site] string,
+        timestamp long,
+        Name string,
+        [Type] string,
+        date DateTime,
+        filename string
+FROM "/openhab/meterings/{date:yyyy}/{date/mm}/{filename:*}.csv"
+USING Extractors.csv();
+    

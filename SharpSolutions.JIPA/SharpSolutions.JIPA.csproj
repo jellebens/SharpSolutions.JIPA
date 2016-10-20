@@ -117,6 +117,9 @@
     <Compile Include="Controls\PowerConsumtionTile.xaml.cs">
       <DependentUpon>PowerConsumtionTile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SystemTile.xaml.cs">
+      <DependentUpon>SystemTile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TemperatureTile.xaml.cs">
       <DependentUpon>TemperatureTile.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\PowerConsumtionTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SystemTile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
