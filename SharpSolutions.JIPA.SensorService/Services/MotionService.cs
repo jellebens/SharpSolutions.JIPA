@@ -31,9 +31,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
             _Semaphore = new SemaphoreSlim(1);
 
             _Sensor = new PirSensor(17, SensorType.ActiveHigh);
-
-            _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, $"MotionService_{Configuration.Default.ClientId}");
-
+            
             _LoggingChannel = loggingChannel;
         }
 
@@ -85,6 +83,7 @@ namespace SharpSolutions.JIPA.SensorService.Services
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             return AsyncInfo.Run(async delegate (CancellationToken token)
             {
+                _Client = MqttClientFactory.CreatePublisher(Configuration.Default.LocalBus, $"MotionService_{Configuration.Default.ClientId}");
                 _Sensor.motionDetected += OnMotionDetected;
             });
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
