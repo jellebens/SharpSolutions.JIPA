@@ -43,13 +43,34 @@ namespace SharpSolutions.JIPA.ViewModels
             _Client.MqttMsgPublishReceived += OnClientMessageReceived;
             _Client.ConnectionClosed += OnClientConnectionClosed;
             _Client.Subscribe(new[] { Topics.AllSensors }, new[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+            ThreadPoolTimer keepAliveTimer = ThreadPoolTimer.CreatePeriodicTimer(OnKeepAliveTimerElapsedHandler, TimeSpan.FromMinutes(1));
+        }
+
+        private void OnKeepAliveTimerElapsedHandler(ThreadPoolTimer timer)
+        {
+            _LoggingChannel.LogMessage($"Keepalive Tick {DateTime.Now.ToString("dd/MM/yy HH:mm:ss")}");
+
+            if (!_Client.IsConnected && _Reconnecting <= 0)
+            {
+                Reconnect();
+            }
+            else {
+                _LoggingChannel.LogMessage($"Skipping reconnect Client is connected: {_Client.IsConnected}, reconnect Count:{_Reconnecting}");
+            }
         }
 
         private void OnClientConnectionClosed(object sender, EventArgs e)
         {
             _LoggingChannel.LogMessage("Connection Closed", LoggingLevel.Warning);
 
-            if (_Reconnecting > 0) {
+            Reconnect();
+        }
+
+        private void Reconnect()
+        {
+            if (_Reconnecting > 0)
+            {
                 _LoggingChannel.LogMessage("Allready retrying connecting exiting", LoggingLevel.Information);
                 return;
             }
@@ -77,12 +98,12 @@ namespace SharpSolutions.JIPA.ViewModels
             {
                 _LoggingChannel.LogMessage($"Mqtt Exception {exc.Message}", LoggingLevel.Error);
             }
-            finally {
+            finally
+            {
                 _Reconnecting--;
             }
         }
 
-        private SemaphoreSlim _Semaphore;
         private long _LastMessage = 0;
         
         public HomeViewModel(): this(new LoggingChannel("HomeViewModelLogger",null))

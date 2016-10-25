@@ -11,7 +11,7 @@
     <Name>SharpSolutions.JIPA.DataAnalytics</Name>
     <RootNamespace>SharpSolutions.JIPA.DataAnalytics</RootNamespace>
     <RuntimeVersion>default</RuntimeVersion>
-    <OutputStreamPath>C:\Users\jebens.CORP\AppData\Local\USQLDataRoot</OutputStreamPath>
+    <OutputStreamPath>C:\Users\jelle\AppData\Local\USQLDataRoot</OutputStreamPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -175,7 +175,7 @@
     "Unit": "W"
   },
   {
-    "Key": "jipa_motion",
+    "Key": "jipa_mot  ion",
     "Name": "Living Room Motion",
     "Type": "motion",
     "Description": "Indicates wether there is motion",
